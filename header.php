@@ -70,7 +70,7 @@ require_once 'connessione.php';
     </div>
 <?php endif; ?>
     <header>
-        <h1>Gestione Biblioteca</h1>
+        <h1 id="title-header">Gestione Biblioteca</h1>
         <nav>
             <ul>
                 <li><a href="index.php">Homepage</a></li>
