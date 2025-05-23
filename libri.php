@@ -1,0 +1,127 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit;
+}
+require_once 'connessione.php';
+$perPage = 10;
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$offset = ($page - 1) * $perPage;
+$sqlCount = "SELECT COUNT(*) as total FROM libri";
+$totalResult = $conn->query($sqlCount);
+$totalRows = $totalResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRows / $perPage);
+$sql = "SELECT l.id_libro, l.titolo, l.anno_stampa, l.prezzo, a.nominativo AS Autore, 
+(SELECT IFNULL(SUM(CASE WHEN tipo_movimento='carico' THEN quantita ELSE -quantita END),0) FROM movimenti_magazzino m WHERE m.id_libro = l.id_libro) AS Quantita FROM libri l 
+INNER JOIN autori a ON l.id_autore = a.id_autore 
+ORDER BY l.titolo ASC LIMIT $perPage OFFSET $offset";
+$result = $conn->query($sql);
+if ($result === false) {
+    die("Errore nella query: " . $conn->error);
+}
+?>
+
+<?php
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    echo "<div class='alert-success'>Libro eliminato con successo.</div>";
+}
+if (isset($_GET['error']) && $_GET['error'] == 1) {
+    echo "<div class='alert-error'>Errore durante l'eliminazione del libro.</div>";
+}
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Elenco Libri</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+#searchBar { margin-bottom: 1rem; padding: 0.5rem 1rem; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; }
+.pagination { display: flex; justify-content: center; margin: 1rem 0; gap: 0.5rem; }
+.pagination button { background: #2d5f5d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
+.pagination button.active, .pagination button:hover { background: #1c3938; }
+.alert-success { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px; }
+.alert-error { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+<?php require_once 'header.php'; ?>
+    <h1>Elenco Libri</h1>
+    <a href="inserisciLibro.php" class="bottone btn-add">Inserisci un nuovo libro</a>
+    <a href="esportaLibri.php" class="bottone btn-add">Esporta Libri CSV</a>
+    <input type="text" id="searchBar" placeholder="Cerca libro o autore..." onkeyup="filterTable()">
+<?php
+if ($result->num_rows > 0) {
+    echo '<table id="libriTable"><tr>';
+    echo '<th><a href="#" id="sortCodice" style="color:inherit;text-decoration:underline;cursor:pointer;">Codice</a></th>';
+    echo '<th><a href="#" id="sortTitolo" style="color:inherit;text-decoration:underline;cursor:pointer;">Titolo</a></th>';
+    echo '<th><a href="#" id="sortAutore" style="color:inherit;text-decoration:underline;cursor:pointer;">Autore</a></th>';
+    echo '<th><a href="#" id="sortAnno" style="color:inherit;text-decoration:underline;cursor:pointer;">Anno di stampa</a></th>';
+    echo '<th>Prezzo</th>';
+    echo '<th>Quantità</th>';
+    echo '<th>Elimina</th>';
+    echo '<th>Modifica</th>';
+    echo '<th>Dettagli</th>';
+    echo '</tr>';
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr><td>{$row['id_libro']}</td><td>{$row['titolo']}</td><td>{$row['Autore']}</td><td>{$row['anno_stampa']}</td><td>{$row['prezzo']}</td><td>{$row['Quantita']}</td><td><a href='eliminaLibro.php?id={$row['id_libro']}' class='bottone-elimina' onclick=\"return confirm('Sei sicuro di voler eliminare questo libro?')\">Elimina</a></td><td><a href='modificaLibro.php?id_upd={$row['id_libro']}' class='bottone'>Modifica</a></td><td><a href='dettagliLibro.php?id={$row['id_libro']}' class='bottone'>Dettagli</a></td></tr>";
+    }
+    echo "</table>";
+    if ($totalPages > 1) {
+        echo "<div class='pagination'>";
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $active = ($i == $page) ? 'active' : '';
+            echo 
+            "<form style='display:inline;' method='get'>
+            <button type='submit' name='page' value='$i' class='$active'>$i
+            </button>
+            </form>";
+        }
+        echo "</div>";
+    }
+} else {
+    echo "<p>Nessun risultato trovato.</p>";
+}
+?>
+
+<script>
+function filterTable() {
+    var input = document.getElementById('searchBar');
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById('libriTable');
+    var tr = table.getElementsByTagName('tr');
+    for (var i = 1; i < tr.length; i++) {
+        var titolo = tr[i].getElementsByTagName('td')[1];
+        var autore = tr[i].getElementsByTagName('td')[2];
+        var txtValue = (titolo ? titolo.textContent : '') + ' ' + (autore ? autore.textContent : '');
+        tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+    }
+}
+// Ordinamento tabella per colonne
+let sortDirections = { codice: true, titolo: true, autore: true, anno: true };
+function sortTableByCol(colIdx, dirKey) {
+    let table = document.getElementById('libriTable');
+    let rows = Array.from(table.rows).slice(1);
+    rows.sort(function(a, b) {
+        let aText = a.cells[colIdx].textContent.trim().toLowerCase();
+        let bText = b.cells[colIdx].textContent.trim().toLowerCase();
+        if (!isNaN(aText) && !isNaN(bText)) {
+            aText = parseFloat(aText); bText = parseFloat(bText);
+        }
+        if (aText < bText) return sortDirections[dirKey] ? -1 : 1;
+        if (aText > bText) return sortDirections[dirKey] ? 1 : -1;
+        return 0;
+    });
+    sortDirections[dirKey] = !sortDirections[dirKey];
+    for (let row of rows) table.tBodies[0].appendChild(row);
+}
+document.getElementById('sortCodice').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(0, 'codice'); });
+document.getElementById('sortTitolo').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(1, 'titolo'); });
+document.getElementById('sortAutore').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(2, 'autore'); });
+document.getElementById('sortAnno').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(3, 'anno'); });
+</script>
+<?php $conn->close(); ?>
+</body>
+</html>
