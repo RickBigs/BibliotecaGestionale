@@ -28,6 +28,7 @@ $result = $conn->query($sql);
     <title>Movimenti Magazzino</title>
 
 <style>
+#searchBar { margin-bottom: 1rem; padding: 0.5rem 1rem; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; }
 </style>
 </head>
 <body>
@@ -37,6 +38,8 @@ $result = $conn->query($sql);
 <h1>Movimenti di Magazzino</h1>
 
 <a href="inserisciMovimento.php" class="bottone btn-add">Nuovo Movimento Magazzino</a>
+
+<input type="text" id="searchBar" placeholder="Cerca libro..." onkeyup="filterTable()">
 
 <?php
 
@@ -52,8 +55,8 @@ if ($result->num_rows > 0) {
     echo "<th>Azioni</th>";
     echo "</tr>";
     while ($row = $result->fetch_assoc()) {
-        $classeTipo = ($row["tipo_movimento"] === 'Carico') ? 'testo-verde' : 'testo-rosso';
-        $classeRiga = ($row["tipo_movimento"] === 'Carico') ? 'riga-verde' : 'riga-rosso';
+        $classeTipo = ($row["tipo_movimento"] === 'Scarico') ? 'testo-verde' : 'testo-rosso';
+        $classeRiga = ($row["tipo_movimento"] === 'Scarico') ? 'riga-verde' : 'riga-rosso';
         echo "<tr class='$classeRiga'>
                 <td>".$row["id_movimento"]."</td>
                 <td>".$row["titolo"]."</td>
@@ -76,6 +79,20 @@ if ($result->num_rows > 0) {
 <?php $conn->close(); ?>
 
 <script>
+
+function filterTable() {
+    var input = document.getElementById('searchBar');
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById('magazzinoTable');
+    var tr = table.getElementsByTagName('tr');
+    for (var i = 1; i < tr.length; i++) {
+        var titolo = tr[i].getElementsByTagName('td')[1];
+        var txtValue = (titolo ? titolo.textContent : '');
+        tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+    }
+}
+
+
 let sortDirections = { codice: true, libro: true, tipo: true, data: true };
 function sortTableByCol(colIdx, dirKey) {
     let table = document.getElementById('magazzinoTable');
