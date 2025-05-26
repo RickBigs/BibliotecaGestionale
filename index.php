@@ -43,52 +43,6 @@ $totDisponibili = $entrate - $uscite;
     <title>Biblioteca - Home</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-    .dashboard {
-        display: flex;
-        gap: 2rem;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 2rem 0;
-    }
-    .card {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        padding: 2rem 2.5rem;
-        min-width: 220px;
-        text-align: center;
-        transition: box-shadow 0.2s;
-    }
-    .card h2 {
-        color: #2d5f5d;
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-    }
-    .card p {
-        color: #555;
-        font-size: 1.1rem;
-    }
-    .dashboard-nav {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
-        margin-bottom: 2rem;
-    }
-    .dashboard-nav a {
-        background: #2d5f5d;
-        color: #fff;
-        padding: 0.8rem 1.5rem;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: background 0.2s;
-    }
-    .dashboard-nav a:hover {
-        background: #1c3938;
-    }
-    @media (max-width: 700px) {
-        .dashboard { flex-direction: column; align-items: center; }
-    }
     </style>
 </head>
 <body>

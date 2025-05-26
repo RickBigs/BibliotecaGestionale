@@ -23,12 +23,12 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Movimenti Magazzino</title>
 
 <style>
-#searchBar { margin-bottom: 1rem; padding: 0.5rem 1rem; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; }
 </style>
 </head>
 <body>
@@ -44,6 +44,7 @@ $result = $conn->query($sql);
 <?php
 
 if ($result->num_rows > 0) {
+    echo "<div class='table-wrapper'>";
     echo "<table id='magazzinoTable'>";
     echo "<tr>";
     echo "<th><a href='#' id='sortCodice' style='color:inherit;text-decoration:underline;cursor:pointer;'>Codice</a></th>";
@@ -71,6 +72,7 @@ if ($result->num_rows > 0) {
               </tr>";
     }
     echo "</table>";
+    echo "</div>";
 } else {
     echo "<p>Nessun movimento registrato.</p>";
 }

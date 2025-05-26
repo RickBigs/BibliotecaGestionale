@@ -63,9 +63,9 @@ if (isset($_GET['elimina'])) {
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <title>Gestione Categorie</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <?php require_once 'header.php'; ?>
@@ -75,6 +75,7 @@ if (isset($_GET['elimina'])) {
     <input type="text" name="nome" placeholder="Nuova categoria" required>
     <button type="submit" class="bottone">Aggiungi Categoria</button>
 </form>
+<div class="table-wrapper">
 <table>
     <tr><th>Categoria</th><th>Azioni</th></tr>
     <?php foreach ($categorie as $cat): ?>
@@ -93,5 +94,6 @@ if (isset($_GET['elimina'])) {
     </tr>
     <?php endforeach; ?>
 </table>
+</div>
 </body>
 </html>
