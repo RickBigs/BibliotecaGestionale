@@ -28,6 +28,19 @@ $libro = $result_libro->fetch_assoc();
 $sql_autori = "SELECT id_autore, nominativo FROM autori ORDER BY nominativo ASC";
 $result_autori = $conn->query($sql_autori);
 
+// Recupero categorie possibili dall'ENUM della tabella libri
+$categorie = [];
+$res_enum = $conn->query("SHOW COLUMNS FROM libri LIKE 'categoria'");
+if ($res_enum) {
+    $row_enum = $res_enum->fetch_assoc();
+    if (preg_match("/enum\\((.*)\\)/", $row_enum['Type'], $matches)) {
+        $vals = explode(",", str_replace("'", "", $matches[1]));
+        foreach ($vals as $val) {
+            $categorie[] = trim($val);
+        }
+    }
+}
+
 // 4. Se è stato inviato il form di modifica
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titolo = trim($_POST["titolo"]);
@@ -35,12 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $anno_stampa = intval($_POST["anno_stampa"]);
     $prezzo = floatval($_POST["prezzo"]);
     $trama = isset($_POST["trama"]) ? trim($_POST["trama"]) : null;
-    if ($titolo === "" || !$id_autore) {
+    $categoria = isset($_POST["categoria"]) ? $_POST["categoria"] : '';
+    if ($titolo === "" || !$id_autore || $categoria === "") {
         header('Location: libri.php?error=1');
         exit;
     }
-    $stmt_upd = $conn->prepare("UPDATE libri SET titolo = ?, id_autore = ?, anno_stampa = ?, prezzo = ?, trama = ? WHERE id_libro = ?");
-    $stmt_upd->bind_param("siidsi", $titolo, $id_autore, $anno_stampa, $prezzo, $trama, $id_libro);
+    $stmt_upd = $conn->prepare("UPDATE libri SET titolo = ?, id_autore = ?, anno_stampa = ?, prezzo = ?, trama = ?, categoria = ? WHERE id_libro = ?");
+    $stmt_upd->bind_param("siidssi", $titolo, $id_autore, $anno_stampa, $prezzo, $trama, $categoria, $id_libro);
     if ($stmt_upd->execute()) {
         header('Location: libri.php');
     } else {
@@ -79,6 +93,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         ?>
+    </select>
+
+    <label for="categoria">Categoria:</label>
+    <select name="categoria" id="categoria" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
+        <option value="">-- Seleziona una categoria --</option>
+        <?php foreach ($categorie as $cat) {
+            $sel = ($libro['categoria'] == $cat) ? 'selected' : '';
+            echo "<option value='".htmlspecialchars($cat)."' $sel>".htmlspecialchars($cat)."</option>";
+        } ?>
     </select>
 
     <label for="anno_stampa">Anno di stampa:</label>

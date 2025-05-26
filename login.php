@@ -50,10 +50,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<main id="form-login" style="max-width:600px;margin:auto;">
-    <h1>Login</h1>
+<main style="max-width:600px;margin:auto;">
+    <h1 id="title-login">Login</h1>
     <?php if (isset($msg)) echo $msg; ?>
-    <form id="login" method="post" action="login.php">
+    <form id="form-login" method="post" action="login.php">
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" required>
         <label for="password">Password:</label>

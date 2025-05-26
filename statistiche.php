@@ -65,17 +65,42 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
     .stat-container { max-width: 700px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 2rem; }
+    .grafici-riga {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .grafico-singolo {
+        flex: 1 1 300px;
+        min-width: 250px;
+        max-width: 350px;
+        background: #f8f8f8;
+        border-radius: 8px;
+        padding: 1rem 1rem 2rem 1rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        text-align: center;
+    }
     </style>
 </head>
 <body>
 <?php require_once 'header.php'; ?>
 <div class="stat-container">
-    <h1>Top picks</h1>
-    <h2>Libri più venduti (TOP 5)</h2>
-    <canvas id="topLibriChart" height="120"></canvas>
-    <hr style="margin:2rem 0;">
-    <h2>Libri più caricati (TOP 5)</h2>
-    <canvas id="topCarichiChart" height="120"></canvas>
+    <div class="grafici-riga">
+        <div class="grafico-singolo">
+            <h1>Top picks</h1>
+            <h2>Ai clienti piace:</h2>
+            <canvas id="topLibriChart" height="120"></canvas>
+            <p class="vedi-tutti"><a class="vedi-tutti" href="magazzino.php">Vedi tutti</a></p>
+        </div>
+        <div class="grafico-singolo">
+            <h1>Top restocks</h1>
+            <h2>Ai fornitori chiediamo:</h2>
+            <canvas id="topCarichiChart" height="120"></canvas>
+            <p class="vedi-tutti"><a class="vedi-tutti" href="magazzino.php">Vedi tutti</a></p>
+        </div>
+    </div>
     <hr style="margin:2rem 0;">
     <h2>Confronto carichi e scarichi (TOP 10)</h2>
     <canvas id="confrontoCarichiScarichiChart" height="180"></canvas>

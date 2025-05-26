@@ -71,9 +71,10 @@ require_once 'connessione.php';
 <?php endif; ?>
     <header>
         <h1 id="title-header">Gestione Biblioteca</h1>
-        <nav>
+        <nav id="navbar">
             <ul>
                 <li><a href="index.php">Homepage</a></li>
+                <li><a href="categoria.php">Categorie</a></li>
                 <li><a href="autori.php">Gestione Autori</a></li>
                 <li><a href="libri.php">Gestione Libri</a></li>
                 <li><a href="magazzino.php">Gestione Magazzino</a></li>

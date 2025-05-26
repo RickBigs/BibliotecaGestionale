@@ -12,10 +12,25 @@ $sqlCount = "SELECT COUNT(*) as total FROM libri";
 $totalResult = $conn->query($sqlCount);
 $totalRows = $totalResult->fetch_assoc()['total'];
 $totalPages = ceil($totalRows / $perPage);
-$sql = "SELECT l.id_libro, l.titolo, l.anno_stampa, l.prezzo, a.nominativo AS Autore, 
-(SELECT IFNULL(SUM(CASE WHEN tipo_movimento='carico' THEN quantita ELSE -quantita END),0) FROM movimenti_magazzino m WHERE m.id_libro = l.id_libro) AS Quantita FROM libri l 
-INNER JOIN autori a ON l.id_autore = a.id_autore 
-ORDER BY l.titolo ASC LIMIT $perPage OFFSET $offset";
+// Recupero categorie possibili dall'ENUM della tabella libri
+$categorie = [];
+$res_enum = $conn->query("SHOW COLUMNS FROM libri LIKE 'categoria'");
+if ($res_enum) {
+    $row_enum = $res_enum->fetch_assoc();
+    if (preg_match("/enum\((.*)\)/", $row_enum['Type'], $matches)) {
+        $vals = explode(",", str_replace("'", "", $matches[1]));
+        foreach ($vals as $val) {
+            $categorie[] = trim($val);
+        }
+    }
+}
+$categoria_selezionata = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+// Modifica query per filtro
+$sql = "SELECT l.id_libro, l.titolo, l.anno_stampa, l.prezzo, a.nominativo AS Autore, l.categoria, (SELECT IFNULL(SUM(CASE WHEN tipo_movimento='carico' THEN quantita ELSE -quantita END),0) FROM movimenti_magazzino m WHERE m.id_libro = l.id_libro) AS Quantita FROM libri l INNER JOIN autori a ON l.id_autore = a.id_autore";
+if ($categoria_selezionata && in_array($categoria_selezionata, $categorie)) {
+    $sql .= " WHERE l.categoria = '" . $conn->real_escape_string($categoria_selezionata) . "'";
+}
+$sql .= " ORDER BY l.titolo ASC LIMIT $perPage OFFSET $offset";
 $result = $conn->query($sql);
 if ($result === false) {
     die("Errore nella query: " . $conn->error);
@@ -51,6 +66,14 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     <h1>Elenco Libri</h1>
     <a href="inserisciLibro.php" class="bottone btn-add">Inserisci un nuovo libro</a>
     <a href="esportaLibri.php" class="bottone btn-add">Esporta Libri CSV</a>
+    
+    <form id="scelta-categoria" method="get" style="margin-bottom:1rem;display:inline-block;">
+        <p>Filtra per categoria:</p>
+        <select name="categoria" id="categoria" onchange="this.form.submit()">
+            <option value="">Tutte le categorie</option>
+            <?php foreach ($categorie as $cat) { $sel = ($cat == $categoria_selezionata) ? 'selected' : ''; echo "<option value='".htmlspecialchars($cat)."' $sel>".htmlspecialchars($cat)."</option>"; } ?>
+        </select>
+    </form>
     <input type="text" id="searchBar" placeholder="Cerca libro o autore..." onkeyup="filterTable()">
 <?php
 if ($result->num_rows > 0) {
@@ -58,6 +81,7 @@ if ($result->num_rows > 0) {
     echo '<th><a href="#" id="sortCodice" style="color:inherit;text-decoration:underline;cursor:pointer;">Codice</a></th>';
     echo '<th><a href="#" id="sortTitolo" style="color:inherit;text-decoration:underline;cursor:pointer;">Titolo</a></th>';
     echo '<th><a href="#" id="sortAutore" style="color:inherit;text-decoration:underline;cursor:pointer;">Autore</a></th>';
+    echo '<th>Categoria</th>';
     echo '<th><a href="#" id="sortAnno" style="color:inherit;text-decoration:underline;cursor:pointer;">Anno di stampa</a></th>';
     echo '<th>Prezzo</th>';
     echo '<th>Quantità</th>';
@@ -66,7 +90,7 @@ if ($result->num_rows > 0) {
     echo '<th>Dettagli</th>';
     echo '</tr>';
     while ($row = $result->fetch_assoc()) {
-        echo "<tr><td>{$row['id_libro']}</td><td>{$row['titolo']}</td><td>{$row['Autore']}</td><td>{$row['anno_stampa']}</td><td>{$row['prezzo']}</td><td>{$row['Quantita']}</td><td><a href='eliminaLibro.php?id={$row['id_libro']}' class='bottone-elimina' onclick=\"return confirm('Sei sicuro di voler eliminare questo libro?')\">Elimina</a></td><td><a href='modificaLibro.php?id_upd={$row['id_libro']}' class='bottone'>Modifica</a></td><td><a href='dettagliLibro.php?id={$row['id_libro']}' class='bottone'>Dettagli</a></td></tr>";
+        echo "<tr><td>{$row['id_libro']}</td><td>{$row['titolo']}</td><td>{$row['Autore']}</td><td>".htmlspecialchars($row['categoria'])."</td><td>{$row['anno_stampa']}</td><td>{$row['prezzo']}</td><td>{$row['Quantita']}</td><td><a href='eliminaLibro.php?id={$row['id_libro']}' class='bottone-elimina' onclick=\"return confirm('Sei sicuro di voler eliminare questo libro?')\">Elimina</a></td><td><a href='modificaLibro.php?id_upd={$row['id_libro']}' class='bottone'>Modifica</a></td><td><a href='dettagliLibro.php?id={$row['id_libro']}' class='bottone'>Dettagli</a></td></tr>";
     }
     echo "</table>";
     if ($totalPages > 1) {
