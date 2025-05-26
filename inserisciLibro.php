@@ -11,23 +11,6 @@ if (!isset($_SESSION['username'])) {
 // Includo la connessione al database
 require_once 'connessione.php';
 
-// Recupero autori per il menù a tendina
-$sql_autori = "SELECT id_autore, nominativo FROM autori ORDER BY nominativo ASC";
-$result_autori = $conn->query($sql_autori);
-
-// Recupero categorie possibili dall'ENUM della tabella libri
-$categorie = [];
-$res_enum = $conn->query("SHOW COLUMNS FROM libri LIKE 'categoria'");
-if ($res_enum) {
-    $row_enum = $res_enum->fetch_assoc();
-    if (preg_match("/enum\\((.*)\\)/", $row_enum['Type'], $matches)) {
-        $vals = explode(",", str_replace("'", "", $matches[1]));
-        foreach ($vals as $val) {
-            $categorie[] = trim($val);
-        }
-    }
-}
-
 // Se il form è stato inviato
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titolo = trim($_POST["titolo"]);
@@ -35,17 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $anno_stampa = intval($_POST["anno_stampa"]);
     $prezzo = floatval($_POST["prezzo"]);
     $trama = isset($_POST["trama"]) ? trim($_POST["trama"]) : null;
-    $categoria = isset($_POST["categoria"]) ? $_POST["categoria"] : '';
 
     // Controllo che i campi obbligatori siano stati compilati
-    if ($titolo === "" || !$id_autore || $categoria === "") {
+    if ($titolo === "" || !$id_autore) {
         header('Location: libri.php?error=1');
         exit;
     }
 
     // Prepared statement per l'inserimento libro
-    $stmt = $conn->prepare("INSERT INTO libri (titolo, id_autore, anno_stampa, prezzo, trama, categoria) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("siidss", $titolo, $id_autore, $anno_stampa, $prezzo, $trama, $categoria);
+    $stmt = $conn->prepare("INSERT INTO libri (titolo, id_autore, anno_stampa, prezzo, trama) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("siids", $titolo, $id_autore, $anno_stampa, $prezzo, $trama);
 
     // Esecuzione dello statement e gestione del risultato
     if ($stmt->execute()) {
@@ -59,12 +41,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
     exit;
 }
+
+// Recupero autori per il menù a tendina
+$sql_autori = "SELECT id_autore, nominativo FROM autori ORDER BY nominativo ASC";
+$result_autori = $conn->query($sql_autori);
 ?>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <title>Inserisci Libro</title>
 </head>
@@ -74,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <h1>Inserisci un nuovo libro</h1>
 
-<form id="form-libro" method="post" action="inserisciLibro.php">
+<form id="form-libro"method="post" action="inserisciLibro.php">
     <label for="titolo">Titolo:</label>
     <input type="text" name="titolo" id="titolo" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
 
@@ -89,14 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         ?>
-    </select>
-
-    <label for="categoria">Categoria:</label>
-    <select name="categoria" id="categoria" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-        <option value="">-- Seleziona una categoria --</option>
-        <?php foreach ($categorie as $cat) {
-            echo "<option value='".htmlspecialchars($cat)."'>".htmlspecialchars($cat)."</option>";
-        } ?>
     </select>
 
     <label for="anno_stampa">Anno di stampa:</label>

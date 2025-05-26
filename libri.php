@@ -8,29 +8,34 @@ require_once 'connessione.php';
 $perPage = 10;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $perPage;
-$sqlCount = "SELECT COUNT(*) as total FROM libri";
-$totalResult = $conn->query($sqlCount);
-$totalRows = $totalResult->fetch_assoc()['total'];
-$totalPages = ceil($totalRows / $perPage);
-// Recupero categorie possibili dall'ENUM della tabella libri
+
+// Recupero le categorie possibili dall'ENUM della tabella libri
 $categorie = [];
 $res_enum = $conn->query("SHOW COLUMNS FROM libri LIKE 'categoria'");
 if ($res_enum) {
     $row_enum = $res_enum->fetch_assoc();
-    if (preg_match("/enum\((.*)\)/", $row_enum['Type'], $matches)) {
+    if (preg_match("/enum\\((.*)\\)/", $row_enum['Type'], $matches)) {
         $vals = explode(",", str_replace("'", "", $matches[1]));
         foreach ($vals as $val) {
             $categorie[] = trim($val);
         }
     }
 }
-$categoria_selezionata = isset($_GET['categoria']) ? $_GET['categoria'] : '';
-// Modifica query per filtro
-$sql = "SELECT l.id_libro, l.titolo, l.anno_stampa, l.prezzo, a.nominativo AS Autore, l.categoria, (SELECT IFNULL(SUM(CASE WHEN tipo_movimento='carico' THEN quantita ELSE -quantita END),0) FROM movimenti_magazzino m WHERE m.id_libro = l.id_libro) AS Quantita FROM libri l INNER JOIN autori a ON l.id_autore = a.id_autore";
-if ($categoria_selezionata && in_array($categoria_selezionata, $categorie)) {
-    $sql .= " WHERE l.categoria = '" . $conn->real_escape_string($categoria_selezionata) . "'";
-}
-$sql .= " ORDER BY l.titolo ASC LIMIT $perPage OFFSET $offset";
+
+// Filtro categoria
+$categoriaFiltro = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+$whereCategoria = ($categoriaFiltro && in_array($categoriaFiltro, $categorie)) ? "WHERE l.categoria = '".$conn->real_escape_string($categoriaFiltro)."'" : '';
+
+// Query aggiornata con filtro categoria
+$sqlCount = "SELECT COUNT(*) as total FROM libri l $whereCategoria";
+$totalResult = $conn->query($sqlCount);
+$totalRows = $totalResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRows / $perPage);
+$sql = "SELECT l.id_libro, l.titolo, l.anno_stampa, l.prezzo, l.categoria, a.nominativo AS Autore, 
+(SELECT IFNULL(SUM(CASE WHEN tipo_movimento='carico' THEN quantita ELSE -quantita END),0) FROM movimenti_magazzino m WHERE m.id_libro = l.id_libro) AS Quantita FROM libri l 
+INNER JOIN autori a ON l.id_autore = a.id_autore 
+$whereCategoria
+ORDER BY l.titolo ASC LIMIT $perPage OFFSET $offset";
 $result = $conn->query($sql);
 if ($result === false) {
     die("Errore nella query: " . $conn->error);
@@ -53,7 +58,12 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     <title>Elenco Libri</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-
+#searchBar { margin-bottom: 1rem; padding: 0.5rem 1rem; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; }
+.pagination { display: flex; justify-content: center; margin: 1rem 0; gap: 0.5rem; }
+.pagination button { background: #2d5f5d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
+.pagination button.active, .pagination button:hover { background: #1c3938; }
+.alert-success { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px; }
+.alert-error { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -61,23 +71,29 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     <h1>Elenco Libri</h1>
     <a href="inserisciLibro.php" class="bottone btn-add">Inserisci un nuovo libro</a>
     <a href="esportaLibri.php" class="bottone btn-add">Esporta Libri CSV</a>
-
-    <form id="scelta-categoria" method="get" style="margin-bottom:1rem;display:inline-block;">
-        <p>Filtra per categoria:</p>
-        <select name="categoria" id="categoria" onchange="this.form.submit()">
-            <option value="">Tutte le categorie</option>
-            <?php foreach ($categorie as $cat) { $sel = ($cat == $categoria_selezionata) ? 'selected' : ''; echo "<option value='".htmlspecialchars($cat)."' $sel>".htmlspecialchars($cat)."</option>"; } ?>
-        </select>
-    </form>
     <input type="text" id="searchBar" placeholder="Cerca libro o autore..." onkeyup="filterTable()">
+<div style="margin-bottom:1.5rem;">
+    <form method="get" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+        <label for="categoria" style="font-weight:500;">Filtra per categoria:</label>
+        <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding:0.5rem 1rem;border-radius:6px;min-width:150px;">
+            <option value="">Tutte</option>
+            <?php foreach ($categorie as $cat): ?>
+                <option value="<?php echo htmlspecialchars($cat); ?>" <?php if($categoriaFiltro==$cat) echo 'selected'; ?>><?php echo htmlspecialchars($cat); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php if($categoriaFiltro): ?>
+            <a href="libri.php" class="bottone" style="margin-left:0.5rem;">Azzera filtro</a>
+        <?php endif; ?>
+    </form>
+</div>
 <?php
 if ($result->num_rows > 0) {
     echo '<table id="libriTable"><tr>';
     echo '<th><a href="#" id="sortCodice" style="color:inherit;text-decoration:underline;cursor:pointer;">Codice</a></th>';
     echo '<th><a href="#" id="sortTitolo" style="color:inherit;text-decoration:underline;cursor:pointer;">Titolo</a></th>';
     echo '<th><a href="#" id="sortAutore" style="color:inherit;text-decoration:underline;cursor:pointer;">Autore</a></th>';
-    echo '<th>Categoria</th>';
     echo '<th><a href="#" id="sortAnno" style="color:inherit;text-decoration:underline;cursor:pointer;">Anno di stampa</a></th>';
+    echo '<th>Categoria</th>';
     echo '<th>Prezzo</th>';
     echo '<th>Quantità</th>';
     echo '<th>Elimina</th>';
@@ -85,7 +101,7 @@ if ($result->num_rows > 0) {
     echo '<th>Dettagli</th>';
     echo '</tr>';
     while ($row = $result->fetch_assoc()) {
-        echo "<tr><td>{$row['id_libro']}</td><td>{$row['titolo']}</td><td>{$row['Autore']}</td><td>".htmlspecialchars($row['categoria'])."</td><td>{$row['anno_stampa']}</td><td>{$row['prezzo']}</td><td>{$row['Quantita']}</td><td><a href='eliminaLibro.php?id={$row['id_libro']}' class='bottone-elimina' onclick=\"return confirm('Sei sicuro di voler eliminare questo libro?')\">Elimina</a></td><td><a href='modificaLibro.php?id_upd={$row['id_libro']}' class='bottone'>Modifica</a></td><td><a href='dettagliLibro.php?id={$row['id_libro']}' class='bottone'>Dettagli</a></td></tr>";
+        echo "<tr><td>{$row['id_libro']}</td><td>{$row['titolo']}</td><td>{$row['Autore']}</td><td>{$row['anno_stampa']}</td><td>{$row['categoria']}</td><td>{$row['prezzo']}</td><td>{$row['Quantita']}</td><td><a href='eliminaLibro.php?id={$row['id_libro']}' class='bottone-elimina' onclick=\"return confirm('Sei sicuro di voler eliminare questo libro?')\">Elimina</a></td><td><a href='modificaLibro.php?id_upd={$row['id_libro']}' class='bottone'>Modifica</a></td><td><a href='dettagliLibro.php?id={$row['id_libro']}' class='bottone'>Dettagli</a></td></tr>";
     }
     echo "</table>";
     if ($totalPages > 1) {

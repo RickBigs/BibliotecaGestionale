@@ -48,7 +48,6 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     $sql = "SELECT id_autore, nominativo FROM autori ORDER BY nominativo ASC LIMIT $perPage OFFSET $offset";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        echo "<div class='table-wrapper'>";
         echo "<table id='autoriTable'>";
         echo "<tr>";
         echo "<th><a href='#' id='sortCodice' style='color:inherit;text-decoration:underline;cursor:pointer;'>Codice</a></th>";
@@ -58,7 +57,6 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
             echo "<tr><td>".$row["id_autore"]."</td><td>".$row["nominativo"]."</td><td><a href='eliminaAutore.php?id=".$row["id_autore"]."' onclick=\"return confirm('Sei sicuro di voler eliminare questo autore?')\" class='bottone-elimina'>Elimina</a></td><td><a href='modificaAutore.php?id_upd=".$row["id_autore"]."' class='bottone'>Modifica</a></td><td><a href='dettagliAutore.php?id=".$row["id_autore"]."' class='bottone'>Dettagli</a></td></tr>";
         }
         echo "</table>";
-        echo "</div>";
         if ($totalPages > 1) {
             echo "<div class='pagination'>";
             for ($i = 1; $i <= $totalPages; $i++) {

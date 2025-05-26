@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1 id="title-login">Login</h1>
     <?php if (isset($msg)) echo $msg; ?>
     <form id="form-login" method="post" action="login.php">
-        <label for="username">Username:</label>
+        <label for="usernamez">Username:</label>
         <input type="text" name="username" id="username" required>
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" required>

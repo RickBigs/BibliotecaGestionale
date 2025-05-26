@@ -44,8 +44,7 @@ $stmt->close();
 <body>
 <?php require_once 'header.php'; ?>
 <h1>Dettagli Libro</h1>
-<div class="table-wrapper">
-<table id="dettagliLibroTable">
+<table>
     <tr><th>Codice</th><td><?php echo $libro['id_libro']; ?></td></tr>
     <tr><th>Titolo</th><td><?php echo htmlspecialchars($libro['titolo']); ?></td></tr>
     <tr><th>Autore</th><td><?php echo htmlspecialchars($libro['autore']); ?></td></tr>
@@ -53,7 +52,6 @@ $stmt->close();
     <tr><th>Prezzo</th><td><?php echo $libro['prezzo']; ?></td></tr>
     <?php if (isset($libro['trama'])) { echo '<tr><th>Trama</th><td>' . htmlspecialchars($libro['trama']) . '</td></tr>'; } ?>
 </table>
-</div>
 <a href="libri.php" class="bottone">Torna all'elenco libri</a>
 </body>
 </html>

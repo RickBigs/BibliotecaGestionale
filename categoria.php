@@ -63,37 +63,98 @@ if (isset($_GET['elimina'])) {
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <title>Gestione Categorie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .categorie-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+        }
+        .categorie-container h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .categorie-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .categorie-form input[type="text"] {
+            flex: 1 1 180px;
+        }
+        .categorie-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .categorie-table th, .categorie-table td {
+            padding: 0.7rem 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .categorie-table th {
+            background: #f1f5f9;
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .categorie-table tr:last-child td {
+            border-bottom: none;
+        }
+        .categorie-table input[type="text"] {
+            width: 100%;
+            min-width: 80px;
+        }
+        @media (max-width: 600px) {
+            .categorie-container {
+                padding: 1rem 0.3rem;
+            }
+            .categorie-form {
+                flex-direction: column;
+                gap: 0.7rem;
+            }
+        }
+    </style>
 </head>
 <body>
 <?php require_once 'header.php'; ?>
-<h1>Gestione Categorie</h1>
-<form method="post" style="margin-bottom:2rem;">
-    <input type="hidden" name="azione" value="inserisci">
-    <input type="text" name="nome" placeholder="Nuova categoria" required>
-    <button type="submit" class="bottone">Aggiungi Categoria</button>
-</form>
-<div class="table-wrapper">
-<table>
-    <tr><th>Categoria</th><th>Azioni</th></tr>
-    <?php foreach ($categorie as $cat): ?>
-    <tr>
-        <form method="post" style="display:inline;">
-            <td>
-                <input type="hidden" name="azione" value="modifica">
-                <input type="hidden" name="old_nome" value="<?php echo htmlspecialchars($cat); ?>">
-                <input type="text" name="nome" value="<?php echo htmlspecialchars($cat); ?>" required>
-            </td>
-            <td>
-                <button type="submit" class="bottone">Rinomina</button>
-                <a href="categoria.php?elimina=<?php echo urlencode($cat); ?>" class="bottone-elimina" onclick="return confirm('Eliminare la categoria? Tutti i libri con questa categoria verranno aggiornati!')">Elimina</a>
-            </td>
-        </form>
-    </tr>
-    <?php endforeach; ?>
-</table>
+<div class="categorie-container">
+    <h1>Gestione Categorie</h1>
+    <form method="post" class="categorie-form" autocomplete="off" aria-label="Aggiungi categoria">
+        <input type="hidden" name="azione" value="inserisci">
+        <input type="text" name="nome" placeholder="Nuova categoria" required aria-label="Nome nuova categoria">
+        <button type="submit" class="bottone">Aggiungi</button>
+    </form>
+    <div class="table-wrapper">
+        <table class="categorie-table" aria-label="Elenco categorie">
+            <thead>
+                <tr><th>Categoria</th><th>Azioni</th></tr>
+            </thead>
+            <tbody>
+            <?php foreach ($categorie as $cat): ?>
+                <tr>
+                    <td style="width:60%">
+                        <form method="post" style="display:flex;gap:0.3rem;align-items:center;">
+                            <input type="hidden" name="azione" value="modifica">
+                            <input type="hidden" name="old_nome" value="<?php echo htmlspecialchars($cat); ?>">
+                            <input type="text" name="nome" value="<?php echo htmlspecialchars($cat); ?>" required aria-label="Modifica categoria">
+                            <button type="submit" class="bottone" title="Rinomina categoria">✏️</button>
+                        </form>
+                    </td>
+                    <td style="width:40%">
+                        <a href="categoria.php?elimina=<?php echo urlencode($cat); ?>" class="bottone-elimina" onclick="return confirm('Eliminare la categoria? Tutti i libri con questa categoria verranno aggiornati!')" title="Elimina categoria" aria-label="Elimina categoria <?php echo htmlspecialchars($cat); ?>">🗑️</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <p style="margin-top:1.5rem;color:#888;font-size:0.97em;text-align:center;">Le categorie sono gestite come valori ENUM nel database. Eliminando una categoria, i libri associati verranno aggiornati alla prima categoria disponibile.</p>
 </div>
 </body>
 </html>

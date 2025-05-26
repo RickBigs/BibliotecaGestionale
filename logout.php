@@ -1,4 +1,4 @@
-<?php
+z<?php
 // Avvio la sessione per gestire l'autenticazione
 session_start();
 // Distruggo la sessione per disconnettere l'utente

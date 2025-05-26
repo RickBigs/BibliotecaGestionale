@@ -36,8 +36,7 @@ $autore = $result->fetch_assoc();
 <body>
 <?php require_once 'header.php'; ?>
 <h1>Dettagli Autore</h1>
-<div class="table-wrapper">
-<table id="dettagliAutoreTable">
+<table>
     <tr><th>Codice</th><td><?php echo $autore['id_autore']; ?></td></tr>
     <tr><th>Nominativo</th><td><?php echo htmlspecialchars($autore['nominativo']); ?></td></tr>
     <?php
@@ -47,7 +46,6 @@ $autore = $result->fetch_assoc();
     }
     ?>
 </table>
-</div>
 <a href="autori.php" class="bottone">Torna all'elenco autori</a>
 </body>
 </html>
