@@ -237,8 +237,47 @@ form input, form select {
     background: #1c3938;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Filtra Categoria */
+.filtra-categoria-wrapper {
+ margin-bottom: 1rem; 
+ padding: 0.5rem 1rem; 
+ width: 100%; 
+ max-width: 400px; 
+}
+.filtra-categoria-wrapper label {
+    font-weight: 100;
+    color: #2d5f5d;
+    margin-right: 0.5rem;
+}
+.filtra-categoria-wrapper form {
+    font-weight: 100;
+    color: #2d5f5d;
+    margin-right: 0.5rem;
+}
+.filtra-categoria-wrapper select {
+    min-width: 150px;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #f5f7fa;
+    color: #2d5f5d;
+    font-size: 1rem;
+}
+.filtra-categoria-wrapper .bottone {
+    padding: 0.4rem 1rem;
+    font-size: 0.98em;
+    margin-left: 0.5rem;
+}
+@media (max-width: 600px) {
+    .filtra-categoria-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+        padding: 0.7rem 0.5rem;
+    }
+    .filtra-categoria-wrapper label {
+        margin-bottom: 0.2rem;
+    }
     nav ul {
         flex-wrap: wrap;
         justify-content: center;

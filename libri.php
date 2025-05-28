@@ -72,10 +72,10 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     <a href="inserisciLibro.php" class="bottone btn-add">Inserisci un nuovo libro</a>
     <a href="esportaLibri.php" class="bottone btn-add">Esporta Libri CSV</a>
     <input type="text" id="searchBar" placeholder="Cerca libro o autore..." onkeyup="filterTable()">
-<div style="margin-bottom:1.5rem;">
+<div class="filtra-categoria-wrapper">
     <form method="get" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
         <label for="categoria" style="font-weight:500;">Filtra per categoria:</label>
-        <select name="categoria" id="categoria" onchange="this.form.submit()" style="padding:0.5rem 1rem;border-radius:6px;min-width:150px;">
+        <select name="categoria" id="categoria" onchange="this.form.submit()">
             <option value="">Tutte</option>
             <?php foreach ($categorie as $cat): ?>
                 <option value="<?php echo htmlspecialchars($cat); ?>" <?php if($categoriaFiltro==$cat) echo 'selected'; ?>><?php echo htmlspecialchars($cat); ?></option>

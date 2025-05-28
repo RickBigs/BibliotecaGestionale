@@ -60,6 +60,7 @@ if (isset($_GET['elimina'])) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -138,16 +139,21 @@ if (isset($_GET['elimina'])) {
             <tbody>
             <?php foreach ($categorie as $cat): ?>
                 <tr>
-                    <td style="width:60%">
-                        <form method="post" style="display:flex;gap:0.3rem;align-items:center;">
-                            <input type="hidden" name="azione" value="modifica">
-                            <input type="hidden" name="old_nome" value="<?php echo htmlspecialchars($cat); ?>">
-                            <input type="text" name="nome" value="<?php echo htmlspecialchars($cat); ?>" required aria-label="Modifica categoria">
-                            <button type="submit" class="bottone" title="Rinomina categoria">✏️</button>
-                        </form>
+                    <td style="width:80%">
+                
+                    <form method="post" style="display:flex;gap:0.3rem;align-items:center;">
+                    <input type="hidden" name="azione" value="modifica">
+                    <input type="hidden" name="old_nome" value="<?php echo htmlspecialchars($cat); ?>">
+                    <input type="text" name="nome" value="<?php echo htmlspecialchars($cat); ?>" required aria-label="Modifica categoria">
+                    </form>
+                    <button type="submit" class="bottone" title="Rinomina categoria">Modifica</button>
                     </td>
                     <td style="width:40%">
-                        <a href="categoria.php?elimina=<?php echo urlencode($cat); ?>" class="bottone-elimina" onclick="return confirm('Eliminare la categoria? Tutti i libri con questa categoria verranno aggiornati!')" title="Elimina categoria" aria-label="Elimina categoria <?php echo htmlspecialchars($cat); ?>">🗑️</a>
+                    <a href="categoria.php?elimina=<?php echo urlencode($cat); ?>"
+                    class="bottone-elimina"
+                    onclick="return confirm('Eliminare la categoria? Tutti i libri con questa categoria verranno aggiornati!')"
+                    title="Elimina categoria"
+                    aria-label="Elimina categoria">Elimina</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
