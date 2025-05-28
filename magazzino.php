@@ -24,12 +24,9 @@ $result = $conn->query($sql);
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Movimenti Magazzino</title>
-
-<style>
-#searchBar { margin-bottom: 1rem; padding: 0.5rem 1rem; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; }
-</style>
 </head>
 <body>
 

@@ -60,29 +60,12 @@ $conn->close();
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Statistiche Biblioteca</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-    .stat-container { max-width: 700px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 2rem; }
-    .grafici-riga {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    .grafico-singolo {
-        flex: 1 1 300px;
-        min-width: 250px;
-        max-width: 350px;
-        background: #f8f8f8;
-        border-radius: 8px;
-        padding: 1rem 1rem 2rem 1rem;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-        text-align: center;
-    }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Statistiche Biblioteca</title>
+
 </head>
 <body>
 <?php require_once 'header.php'; ?>

@@ -57,14 +57,6 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Elenco Libri</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-#searchBar { margin-bottom: 1rem; padding: 0.5rem 1rem; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; }
-.pagination { display: flex; justify-content: center; margin: 1rem 0; gap: 0.5rem; }
-.pagination button { background: #2d5f5d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
-.pagination button.active, .pagination button:hover { background: #1c3938; }
-.alert-success { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px; }
-.alert-error { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin-bottom: 15px; }
-    </style>
 </head>
 <body>
 <?php require_once 'header.php'; ?>
@@ -73,8 +65,8 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     <a href="esportaLibri.php" class="bottone btn-add">Esporta Libri CSV</a>
     <input type="text" id="searchBar" placeholder="Cerca libro o autore..." onkeyup="filterTable()">
 <div class="filtra-categoria-wrapper">
-    <form method="get" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
-        <label for="categoria" style="font-weight:500;">Filtra per categoria:</label>
+    <form method="get">
+        <label for="categoria">Filtra per categoria:</label>
         <select name="categoria" id="categoria" onchange="this.form.submit()">
             <option value="">Tutte</option>
             <?php foreach ($categorie as $cat): ?>
@@ -82,7 +74,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
             <?php endforeach; ?>
         </select>
         <?php if($categoriaFiltro): ?>
-            <a href="libri.php" class="bottone" style="margin-left:0.5rem;">Azzera filtro</a>
+            <a href="libri.php" class="bottone">Azzera filtro</a>
         <?php endif; ?>
     </form>
 </div>

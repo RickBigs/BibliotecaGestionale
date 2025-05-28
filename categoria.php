@@ -68,59 +68,7 @@ if (isset($_GET['elimina'])) {
     <title>Gestione Categorie</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .categorie-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-            padding: 2rem 1.5rem 1.5rem 1.5rem;
-        }
-        .categorie-container h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        .categorie-form {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .categorie-form input[type="text"] {
-            flex: 1 1 180px;
-        }
-        .categorie-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .categorie-table th, .categorie-table td {
-            padding: 0.7rem 0.5rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .categorie-table th {
-            background: #f1f5f9;
-            color: #2563eb;
-            font-weight: 600;
-        }
-        .categorie-table tr:last-child td {
-            border-bottom: none;
-        }
-        .categorie-table input[type="text"] {
-            width: 100%;
-            min-width: 80px;
-        }
-        @media (max-width: 600px) {
-            .categorie-container {
-                padding: 1rem 0.3rem;
-            }
-            .categorie-form {
-                flex-direction: column;
-                gap: 0.7rem;
-            }
-        }
-    </style>
+
 </head>
 <body>
 <?php require_once 'header.php'; ?>
@@ -139,16 +87,16 @@ if (isset($_GET['elimina'])) {
             <tbody>
             <?php foreach ($categorie as $cat): ?>
                 <tr>
-                    <td style="width:80%">
+                    <td>
                 
-                    <form method="post" style="display:flex;gap:0.3rem;align-items:center;">
+                    <form method="post">
                     <input type="hidden" name="azione" value="modifica">
                     <input type="hidden" name="old_nome" value="<?php echo htmlspecialchars($cat); ?>">
                     <input type="text" name="nome" value="<?php echo htmlspecialchars($cat); ?>" required aria-label="Modifica categoria">
                     </form>
                     <button type="submit" class="bottone" title="Rinomina categoria">Modifica</button>
                     </td>
-                    <td style="width:40%">
+                    <td>
                     <a href="categoria.php?elimina=<?php echo urlencode($cat); ?>"
                     class="bottone-elimina"
                     onclick="return confirm('Eliminare la categoria? Tutti i libri con questa categoria verranno aggiornati!')"
@@ -160,7 +108,7 @@ if (isset($_GET['elimina'])) {
             </tbody>
         </table>
     </div>
-    <p style="margin-top:1.5rem;color:#888;font-size:0.97em;text-align:center;">Le categorie sono gestite come valori ENUM nel database. Eliminando una categoria, i libri associati verranno aggiornati alla prima categoria disponibile.</p>
+    <p>Le categorie sono gestite come valori ENUM nel database. Eliminando una categoria, i libri associati verranno aggiornati alla prima categoria disponibile.</p>
 </div>
 </body>
 </html>

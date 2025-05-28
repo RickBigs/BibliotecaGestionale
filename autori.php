@@ -21,15 +21,8 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
     <title>Elenco Autori</title>
-    <style>
-    #searchBar { margin-bottom: 1rem; padding: 0.5rem 1rem; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; }
-    .pagination { display: flex; justify-content: center; margin: 1rem 0; gap: 0.5rem; }
-    .pagination button { background: #2d5f5d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
-    .pagination button.active, .pagination button:hover { background: #1c3938; }
-    .alert-success { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px; }
-    .alert-error { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin-bottom: 15px; }
-    </style>
 </head>
 <body>
 <?php require_once 'header.php'; ?>
