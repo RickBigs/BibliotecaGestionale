@@ -1,22 +1,111 @@
-/* Reset */
+/* =====================
+   RESET & BASE
+====================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'poppins', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
 }
-/*carico e scarico */
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+    padding: 1rem;
+}
 
+/* =====================
+   HEADER & NAVBAR
+====================== */
+header {
+    background-color: #2d5f5d;
+    color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+#title-header {
+    font-size: 3rem;
+    color: #ffffff;
+}
+#navbar {
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: #1c3938;
+}
+
+/* =====================
+   TITOLI
+====================== */
+h1 {
+    margin: 2rem 0 1rem;
+    font-size: 2rem;
+    color: #2d5f5d;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+/* =====================
+   TABELLE
+====================== */
+.table-wrapper {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(45,95,93,0.08);
+    margin: 1.5rem 0;
+    padding: 1rem;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #fdfbfb;
+}
+th {
+    background-color: #2d5f5d;
+    color: white;
+    font-weight: 600;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+tr:hover {
+    background-color: #eef3f3;
+}
+.riga-movimento {
+    background-color: #e0f7fa;
+}
 .riga-verde {
-    color: #8cca9a;
-}
-.riga-rosso {
-    color: #ad545b;
-}
-.riga-verde:hover {
     color: #27b446;
 }
-.riga-rosso:hover {
+.riga-rosso {
     color: #c61d2b;
 }
 .testo-verde {
@@ -27,98 +116,45 @@
     color: red;
     font-weight: bold;
 }
-#title-login {
-    font-size: 3rem;
-    color: #2d5f5d;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-/* Body */
-body {
-    background-color: #f5f7fa;
-    color: #333;
-    line-height: 1.6;
-    padding: 1rem;
-}
 
-/* Header */
-header {
-    background-color: #2d5f5d;
-    color: white;
-    padding: 1.5rem 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-#title-header {
-    font-size: 3rem;
-    color: #ffffff;
-}
-
-/* Navbar */
-#navbar {
-    font-size: 1.1rem;
+/* =====================
+   FILTRI E WRAPPER
+====================== */
+.filtra-categoria-wrapper, .filtra-wrapper {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(45,95,93,0.08);
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
     margin-top: 1rem;
 }
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
+.filtra-categoria-wrapper label, .filtra-wrapper label {
+    font-weight: 600;
+    color: #2d5f5d;
+    margin-right: 0.5rem;
+}
+.filtra-categoria-wrapper select, .filtra-wrapper select {
+    min-width: 150px;
     padding: 0.5rem 1rem;
     border-radius: 6px;
-    transition: background 0.3s ease;
-}
-
-nav ul li a:hover,
-nav ul li a.active {
-    background-color: #1c3938;
-}
-/* Titoli pagine */
-h1 {
-    margin: 2rem 0 1rem;
-    font-size: 1.8rem;
+    border: 1px solid #ccc;
+    background: #f5f7fa;
     color: #2d5f5d;
+    font-size: 1rem;
+}
+.filtra-categoria-wrapper .bottone, .filtra-wrapper .bottone {
+    padding: 0.4rem 1rem;
+    font-size: 0.98em;
+    margin-left: 0.5rem;
 }
 
-/* Tabelle */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 2rem;
-    background-color: white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-th, td {
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid #fdfbfb;
-}
-
-th {
-    background-color: #2d5f5d;
-    color: white;
-    font-weight: 600;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #eef3f3;
-}
-.riga-movimento {
-    background-color: #e0f7fa;
-}
-/* Bottoni */
+/* =====================
+   BOTTONI
+====================== */
 .bottone, .btn-add {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -127,60 +163,70 @@ tr:hover {
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: background 0.3s ease;
+    border: none;
+    font-weight: 500;
+    transition: background 0.3s;
+    cursor: pointer;
 }
-
 .bottone:hover, .btn-add:hover {
     background-color: #1c3938;
 }
+.bottone-elimina {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    font-weight: 500;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+.bottone-elimina:hover {
+    background: #b91c1c;
+}
 
-/* Form */
+/* =====================
+   FORM
+====================== */
 form {
     max-width: 600px;
     margin:auto;
     background: white;
     border-radius: 20px;
     gap: 15px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 8px rgba(45,95,93,0.08);
 }
-
 form label {
     display: flex;
     margin-bottom: 0.5rem;
     font-weight: 500;
 }
-
-form input, form select {
+form input, form select, form textarea {
     width: 100%;
     padding: 0.7rem;
     margin-bottom: 1.2rem;
     border: 1px solid #ccc;
     border-radius: 6px;
+    font-size: 1rem;
+    background: #f8fafc;
 }
-#form-login {
+form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+#form-login, #form-libro, #form-autore, #form-magazzino {
     width: 100%;
     padding: 0.7rem;
     margin-bottom: 1.2rem;
     border-radius: 6px;
 }
-#form-libro {
- width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-}
-#form-autore {
- width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-}
-#form-magazzino {
- width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-}
-/* Alert success/error */
+
+/* =====================
+   ALERT
+====================== */
 .alert-success {
     background-color: #d4edda;
     color: #155724;
@@ -188,8 +234,8 @@ form input, form select {
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
     border-radius: 5px;
+    text-align: center;
 }
-
 .alert-error {
     background-color: #f8d7da;
     color: #721c24;
@@ -197,30 +243,17 @@ form input, form select {
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
     border-radius: 5px;
-}
-.p.vedi-tutti {
-    width: 50px;
-    margin: 1rem 0;
-    font-size: 1.2rem;
-    align-items: center;
     text-align: center;
 }
-.vedi-tutti {
-    background-color: #2d5f5d;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
 
-
-/* Pagination */
+/* =====================
+   PAGINATION
+====================== */
 .pagination {
-    display: block;
+    display: flex;
     justify-content: left;
     margin: 0;
-    gap: 70px; /* Riduce lo spazio tra i bottoni */
+    gap: 0.5rem;
     padding: 10px 0px;
 }
 .pagination button {
@@ -237,68 +270,44 @@ form input, form select {
     background: #1c3938;
 }
 
-/* Filtra Categoria */
-.filtra-categoria-wrapper {
- margin-bottom: 1rem; 
- padding: 0.5rem 1rem; 
- width: 100%; 
- max-width: 400px; 
-}
-.filtra-categoria-wrapper label {
-    font-weight: 100;
-    color: #2d5f5d;
-    margin-right: 0.5rem;
-}
-.filtra-categoria-wrapper form {
-    font-weight: 100;
-    color: #2d5f5d;
-    margin-right: 0.5rem;
-}
-.filtra-categoria-wrapper select {
-    min-width: 150px;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    background: #f5f7fa;
-    color: #2d5f5d;
-    font-size: 1rem;
-}
-.filtra-categoria-wrapper .bottone {
-    padding: 0.4rem 1rem;
-    font-size: 0.98em;
-    margin-left: 0.5rem;
+/* =====================
+   RESPONSIVE
+====================== */
+@media (max-width: 900px) {
+    .table-wrapper, form {
+        padding: 1rem 0.5rem;
+    }
+    h1 {
+        font-size: 1.3rem;
+    }
 }
 @media (max-width: 600px) {
-    .filtra-categoria-wrapper {
+    .filtra-categoria-wrapper, .filtra-wrapper {
         flex-direction: column;
         align-items: stretch;
         gap: 0.7rem;
         padding: 0.7rem 0.5rem;
     }
-    .filtra-categoria-wrapper label {
+    .filtra-categoria-wrapper label, .filtra-wrapper label {
         margin-bottom: 0.2rem;
     }
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
     }
-
     table, thead, tbody, th, td, tr {
         display: block;
     }
-
     th {
         position: sticky;
         top: 0;
     }
-
     td {
         border: none;
         border-bottom: 1px solid #ddd;
         position: relative;
         padding-left: 50%;
     }
-
     td::before {
         position: absolute;
         top: 50%;
@@ -308,14 +317,42 @@ form input, form select {
         font-weight: bold;
         color: #2d5f5d;
     }
-
-    /* Labels for responsive table */
+    /* Labels for responsive table (aggiorna se cambi le colonne!) */
     td:nth-of-type(1)::before { content: "ID"; }
     td:nth-of-type(2)::before { content: "Titolo"; }
     td:nth-of-type(3)::before { content: "Autore"; }
     td:nth-of-type(4)::before { content: "Anno"; }
-    td:nth-of-type(5)::before { content: "Prezzo"; }
-    td:nth-of-type(6)::before { content: "Quantità"; }
-    td:nth-of-type(7)::before { content: "Elimina"; }
-    td:nth-of-type(8)::before { content: "Modifica"; }
+    td:nth-of-type(5)::before { content: "Categoria"; }
+    td:nth-of-type(6)::before { content: "Prezzo"; }
+    td:nth-of-type(7)::before { content: "Quantità"; }
+    td:nth-of-type(8)::before { content: "Elimina"; }
+    td:nth-of-type(9)::before { content: "Modifica"; }
+    td:nth-of-type(10)::before { content: "Dettagli"; }
+}
+
+/* =====================
+   UTILITY
+====================== */
+a {
+    color: #2d5f5d;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.p.vedi-tutti {
+    width: 50px;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    align-items: center;
+    text-align: center;
+}
+.vedi-tutti {
+    background-color: #2d5f5d;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s ease;
 }
