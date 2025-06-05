@@ -13,31 +13,35 @@ require_once 'connessione.php';
 <link rel="stylesheet" href="styles.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>Gestione Biblioteca</title>
 </head>
-<body>
+<body class="bg-gray-50">
 <?php if (isset($_SESSION['username'])): ?>
-    <div style="position: absolute; top: 1rem; right: 2rem; display: flex; align-items: center; gap: 0.5rem;">
-        <span class="user-badge"><span class="user-icon">👤</span><?php echo htmlspecialchars($_SESSION['username']); ?> <span style="opacity:0.7;font-size:0.95em;">(<?php echo $_SESSION['ruolo']; ?>)</span></span>
-        <a href="logout.php" class="bottone" style="background:#c0392b;">Logout</a>
+    <div class="absolute top-4 right-8 flex items-center gap-2">
+        <span class="user-badge flex items-center gap-1 bg-blue-100 text-blue-900 px-3 py-1 rounded font-medium">
+            <span class="user-icon">👤</span><?php echo htmlspecialchars($_SESSION['username']); ?>
+            <span class="opacity-70 text-sm">(<?php echo $_SESSION['ruolo']; ?>)</span>
+        </span>
+        <a href="logout.php" class="bg-red-600 hover:bg-red-800 text-white px-3 py-1 rounded transition">Logout</a>
         <?php if ($_SESSION['ruolo'] === 'Admin'): ?>
-            <a href="registrazioneUtente.php" class="bottone" style="background:#2d5f5d;">Registra Utente</a>
+            <a href="registrazioneUtente.php" class="bg-green-700 hover:bg-green-900 text-white px-3 py-1 rounded transition">Registra Utente</a>
         <?php endif; ?>
     </div>
 <?php endif; ?>
-    <header>
-        <h1 id="title-header">Gestione Biblioteca</h1>
-        <nav id="navbar">
-            <ul>
-                <li><a href="index.php">Homepage</a></li>
-                <li><a href="categoria.php">Categorie</a></li>
-                <li><a href="autori.php">Gestione Autori</a></li>
-                <li><a href="libri.php">Gestione Libri</a></li>
-                <li><a href="magazzino.php">Gestione Magazzino</a></li>
-                <li><a href="statistiche.php">Statistiche & Contabilità</a></li>
+<header class="bg-primary-700 text-white shadow mb-8">
+    <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between">
+        <h1 id="title-header" class="text-3xl font-bold tracking-tight">Gestione Biblioteca</h1>
+        <nav id="navbar" class="mt-4 md:mt-0">
+            <ul class="flex flex-wrap gap-4 md:gap-6 items-center">
+                <li><a href="index.php" class="hover:bg-primary-800 px-3 py-1 rounded transition">Homepage</a></li>
+                <li><a href="categoria.php" class="hover:bg-primary-800 px-3 py-1 rounded transition">Categorie</a></li>
+                <li><a href="autori.php" class="hover:bg-primary-800 px-3 py-1 rounded transition">Gestione Autori</a></li>
+                <li><a href="libri.php" class="hover:bg-primary-800 px-3 py-1 rounded transition">Gestione Libri</a></li>
+                <li><a href="magazzino.php" class="hover:bg-primary-800 px-3 py-1 rounded transition">Gestione Magazzino</a></li>
+                <li><a href="statistiche.php" class="hover:bg-primary-800 px-3 py-1 rounded transition">Statistiche & Contabilità</a></li>
             </ul>
         </nav>
-    </header>
+    </div>
+</header>
 </body>
 </html>

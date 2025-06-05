@@ -1,282 +1,160 @@
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'poppins', Tahoma, Geneva, Verdana, sans-serif;
-}
-/*carico e scarico */
+@import url('bootstrap-5.3.6-dist/css/bootstrap.min.css');
 
-.riga-verde {
-    color: #8cca9a;
-}
-.riga-rosso {
-    color: #ad545b;
-}
-.riga-verde:hover {
-    color: #27b446;
-}
-.riga-rosso:hover {
-    color: #c61d2b;
-}
-.testo-verde {
-    color: green;
-    font-weight: bold;
-}
-.testo-rosso {
-    color: red;
-    font-weight: bold;
-}
-#title-login {
-    font-size: 3rem;
-    color: #2d5f5d;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-/* Body */
 body {
     background-color: #f5f7fa;
     color: #333;
-    line-height: 1.6;
-    padding: 1rem;
+    font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header */
 header {
     background-color: #2d5f5d;
-    color: white;
+    color: #fff;
     padding: 1.5rem 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-#title-header {
-    font-size: 3rem;
-    color: #ffffff;
-}
-
-/* Navbar */
-#navbar {
-    font-size: 1.1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    transition: background 0.3s ease;
-}
-
-nav ul li a:hover,
-nav ul li a.active {
-    background-color: #1c3938;
-}
-/* Titoli pagine */
-h1 {
-    margin: 2rem 0 1rem;
-    font-size: 1.8rem;
-    color: #2d5f5d;
-}
-
-/* Tabelle */
-table {
-    width: 100%;
-    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     margin-bottom: 2rem;
-    background-color: white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
-th, td {
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid #fdfbfb;
-}
-
-th {
-    background-color: #2d5f5d;
-    color: white;
+#title-header {
+    font-size: 2.5rem;
+    color: #fff;
     font-weight: 600;
 }
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #eef3f3;
-}
-.riga-movimento {
-    background-color: #e0f7fa;
-}
-/* Bottoni */
-.bottone, .btn-add {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin: 0.5rem 0;
-    background-color: #2d5f5d;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.bottone:hover, .btn-add:hover {
-    background-color: #1c3938;
-}
-
-/* Form */
-form {
-    max-width: 600px;
-    margin:auto;
-    background: white;
-    border-radius: 20px;
-    gap: 15px;
-}
-
-form label {
+#navbar, nav ul {
     display: flex;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-form input, form select {
-    width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-#form-login {
-    width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-}
-#form-libro {
- width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-}
-#form-autore {
- width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-}
-#form-magazzino {
- width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-}
-/* Alert success/error */
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-}
-
-.alert-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-}
-.p.vedi-tutti {
-    width: 50px;
-    margin: 1rem 0;
-    font-size: 1.2rem;
+    gap: 1.5rem;
     align-items: center;
-    text-align: center;
-}
-.vedi-tutti {
-    background-color: #2d5f5d;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-
-/* Pagination */
-.pagination {
-    display: block;
-    justify-content: left;
+    list-style: none;
+    background: none;
+    padding: 0;
     margin: 0;
-    gap: 70px; /* Riduce lo spazio tra i bottoni */
-    padding: 10px 0px;
 }
-.pagination button {
-    background: #2d5f5d;
-    color: white;
-    border-radius: 20px;
-    padding: 0.4rem 0.9rem;
-    border: none;
-    margin: 0 2px;
-    cursor: pointer;
-    transition: background 0.3s;
+nav ul li a, #navbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background 0.2s;
 }
-.pagination button.active, .pagination button:hover {
+nav ul li a:hover, nav ul li a.active, #navbar a:hover, #navbar a.active {
     background: #1c3938;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    table, thead, tbody, th, td, tr {
-        display: block;
-    }
-
-    th {
-        position: sticky;
-        top: 0;
-    }
-
-    td {
-        border: none;
-        border-bottom: 1px solid #ddd;
-        position: relative;
-        padding-left: 50%;
-    }
-
-    td::before {
-        position: absolute;
-        top: 50%;
-        left: 1rem;
-        transform: translateY(-50%);
-        white-space: nowrap;
-        font-weight: bold;
-        color: #2d5f5d;
-    }
-
-    /* Labels for responsive table */
-    td:nth-of-type(1)::before { content: "ID"; }
-    td:nth-of-type(2)::before { content: "Titolo"; }
-    td:nth-of-type(3)::before { content: "Autore"; }
-    td:nth-of-type(4)::before { content: "Anno"; }
-    td:nth-of-type(5)::before { content: "Prezzo"; }
-    td:nth-of-type(6)::before { content: "Quantità"; }
-    td:nth-of-type(7)::before { content: "Elimina"; }
-    td:nth-of-type(8)::before { content: "Modifica"; }
+h1 {
+    margin: 2rem 0 1rem;
+    font-size: 2rem;
+    color: #2d5f5d;
+    font-weight: 700;
 }
+
+.table-wrapper {
+    margin: 1.5rem 0;
+}
+
+/* Tabelle Bootstrap + personalizzazione */
+table {
+    background: #fff;
+}
+.table thead th {
+    background-color: #2d5f5d;
+    color: #fff;
+    font-weight: 600;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+.table-hover tbody tr:hover {
+    background-color: #eef3f3;
+}
+
+/* Bottoni Bootstrap override */
+.bottone, .btn-add {
+    font-weight: 500;
+    border-radius: 5px;
+    background-color: #2d5f5d;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    transition: background 0.3s;
+}
+.bottone:hover, .btn-add:hover {
+    background-color: #1c3938;
+    color: #fff;
+}
+.bottone-elimina {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.bottone-elimina:hover {
+    background: #b91c1c;
+}
+
+/* Alert Bootstrap override */
+.alert-success {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #c3e6cb !important;
+}
+.alert-error, .alert-danger {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    border: 1px solid #f5c6cb !important;
+}
+
+/* Form Bootstrap override */
+form {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+form label {
+    font-weight: 500;
+    color: #2d5f5d;
+}
+
+/* Utility per filtri */
+.filtra-categoria-wrapper, .filtra-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(45,95,93,0.08);
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+.filtra-categoria-wrapper label, .filtra-wrapper label {
+    font-weight: 600;
+    color: #2d5f5d;
+}
+
+/* Stato carico/scarico */
+.riga-verde { color: #198754; }
+.riga-rosso { color: #dc3545; }
+.riga-verde:hover { color: #27b446; }
+.riga-rosso:hover { color: #c61d2b; }
+.testo-verde { color: #198754; font-weight: bold; }
+.testo-rosso { color: #dc3545; font-weight: bold; }
+
+/* Responsive Bootstrap override */
+@media (max-width: 768px) {
+    .table-wrapper, form { padding: 1rem 0.5rem; }
+    h1 { font-size: 1.3rem; }
+    .filtra-categoria-wrapper, .filtra-wrapper { flex-direction: column; align-items: stretch; gap: 0.7rem; padding: 0.7rem 0.5rem; }
+}
+
+/* Utility */
+a { color: #2d5f5d; text-decoration: none; }
+a:hover { text-decoration: underline; color: #1c3938; }
+.p.vedi-tutti { width: 50px; margin: 1rem 0; font-size: 1.2rem; align-items: center; text-align: center; }
+.vedi-tutti { background-color: #2d5f5d; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; transition: 0.3s; }

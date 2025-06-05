@@ -24,59 +24,50 @@ $result = $conn->query($sql);
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Movimenti Magazzino</title>
 </head>
-<body>
-
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-
-<h1>Movimenti di Magazzino</h1>
-
-<a href="inserisciMovimento.php" class="bottone btn-add">Nuovo Movimento Magazzino</a>
-
-<input type="text" id="searchBar" placeholder="Cerca libro..." onkeyup="filterTable()">
-
+<h1 class="text-2xl font-bold text-blue-900 mb-6">Movimenti di Magazzino</h1>
+<div class="flex flex-wrap gap-3 items-center bg-white rounded-lg shadow px-4 py-3 mb-4">
+    <a href="inserisciMovimento.php" class="bg-green-600 hover:bg-green-800 text-white px-3 py-1 rounded transition">Nuovo Movimento Magazzino</a>
+    <input type="text" id="searchBar" placeholder="Cerca libro..." onkeyup="filterTable()" class="border border-gray-300 rounded px-3 py-1 focus:ring-blue-500 focus:border-blue-500" />
+</div>
 <?php
-
 if ($result->num_rows > 0) {
-    echo "<table id='magazzinoTable'>";
-    echo "<tr>";
-    echo "<th><a href='#' id='sortCodice' style='color:inherit;text-decoration:underline;cursor:pointer;'>Codice</a></th>";
-    echo "<th><a href='#' id='sortLibro' style='color:inherit;text-decoration:underline;cursor:pointer;'>Libro</a></th>";
-    echo "<th><a href='#' id='sortTipo' style='color:inherit;text-decoration:underline;cursor:pointer;'>Tipo</a></th>";
-    echo "<th>Quantità</th>";
-    echo "<th><a href='#' id='sortData' style='color:inherit;text-decoration:underline;cursor:pointer;'>Data</a></th>";
-    echo "<th>Descrizione</th>";
-    echo "<th>Azioni</th>";
-    echo "</tr>";
+    echo "<div class='overflow-x-auto rounded-lg shadow bg-white my-6'>";
+    echo "<table id='magazzinoTable' class='min-w-full divide-y divide-gray-200'>";
+    echo "<thead class='bg-gray-100'><tr>";
+    echo "<th class='px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase'><a href='#' id='sortCodice'>Codice</a></th>";
+    echo "<th class='px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase'><a href='#' id='sortLibro'>Libro</a></th>";
+    echo "<th class='px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase'><a href='#' id='sortTipo'>Tipo</a></th>";
+    echo "<th class='px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase'>Quantità</th>";
+    echo "<th class='px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase'><a href='#' id='sortData'>Data</a></th>";
+    echo "<th class='px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase'>Descrizione</a></th>";
+    echo "<th class='px-4 py-2'></th></tr></thead><tbody>";
     while ($row = $result->fetch_assoc()) {
-        $classeTipo = ($row["tipo_movimento"] === 'Scarico') ? 'testo-verde' : 'testo-rosso';
-        $classeRiga = ($row["tipo_movimento"] === 'Scarico') ? 'riga-verde' : 'riga-rosso';
-        echo "<tr class='$classeRiga'>
-                <td>".$row["id_movimento"]."</td>
-                <td>".$row["titolo"]."</td>
-                <td class='$classeTipo'>".htmlspecialchars($row["tipo_movimento"])."</td>
-                <td>".$row["quantita"]."</td>
-                <td>".$row["data_movimento"]."</td>
-                <td>".htmlspecialchars($row["descrizione"])."</td>
-                <td>
-                    <a href='modificaMagazzino.php?id=".$row["id_movimento"]."' class='bottone'>Modifica</a>
-                    <a href='eliminaMovimento.php?id=".$row["id_movimento"]."' class='bottone-elimina' onclick=\"return confirm('Sei sicuro di voler eliminare questo movimento?')\">Elimina</a>
-                </td>
-              </tr>";
+        $classeTipo = ($row["tipo_movimento"] === 'Scarico') ? 'text-green-700 font-bold' : 'text-red-700 font-bold';
+        $classeRiga = ($row["tipo_movimento"] === 'Scarico') ? 'bg-green-50' : 'bg-red-50';
+        echo "<tr class='hover:bg-blue-50 $classeRiga'>";
+        echo "<td class='px-4 py-2'>".$row["id_movimento"]."</td>";
+        echo "<td class='px-4 py-2'>".$row["titolo"]."</td>";
+        echo "<td class='px-4 py-2 $classeTipo'>".htmlspecialchars($row["tipo_movimento"])."</td>";
+        echo "<td class='px-4 py-2'>".$row["quantita"]."</td>";
+        echo "<td class='px-4 py-2'>".$row["data_movimento"]."</td>";
+        echo "<td class='px-4 py-2'>".htmlspecialchars($row["descrizione"])."</td>";
+        echo "<td class='px-4 py-2 flex gap-2'>";
+        echo "<a href='modificaMagazzino.php?id=".$row["id_movimento"]."' class='bg-blue-600 hover:bg-blue-800 text-white px-3 py-1 rounded transition'>Modifica</a> ";
+        echo "<a href='eliminaMovimento.php?id=".$row["id_movimento"]."' class='bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded transition' onclick=\"return confirm('Sei sicuro di voler eliminare questo movimento?')\">Elimina</a>";
+        echo "</td></tr>";
     }
-    echo "</table>";
+    echo "</tbody></table></div>";
 } else {
-    echo "<p>Nessun movimento registrato.</p>";
+    echo "<p class='text-center text-gray-500 mt-8'>Nessun movimento registrato.</p>";
 }
 ?>
-
-<?php $conn->close(); ?>
-
 <script>
-
 function filterTable() {
     var input = document.getElementById('searchBar');
     var filter = input.value.toUpperCase();
@@ -88,8 +79,6 @@ function filterTable() {
         tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
     }
 }
-
-
 let sortDirections = { codice: true, libro: true, tipo: true, data: true };
 function sortTableByCol(colIdx, dirKey) {
     let table = document.getElementById('magazzinoTable');
@@ -114,6 +103,5 @@ document.getElementById('sortLibro').addEventListener('click', function(e) { e.p
 document.getElementById('sortTipo').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(2, 'tipo'); });
 document.getElementById('sortData').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(4, 'data'); });
 </script>
-
 </body>
 </html>

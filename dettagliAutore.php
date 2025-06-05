@@ -33,19 +33,23 @@ $autore = $result->fetch_assoc();
     <title>Dettagli Autore</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-<h1>Dettagli Autore</h1>
-<table>
-    <tr><th>Codice</th><td><?php echo $autore['id_autore']; ?></td></tr>
-    <tr><th>Nominativo</th><td><?php echo htmlspecialchars($autore['nominativo']); ?></td></tr>
-    <?php
-    // Mostro la descrizione dell'autore se disponibile
-    if (isset($autore['descrizione'])) {
-        echo '<tr><th>Storia</th><td>' . htmlspecialchars($autore['descrizione']) . '</td></tr>';
-    }
-    ?>
-</table>
-<a href="autori.php" class="bottone">Torna all'elenco autori</a>
+<main class="max-w-xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Dettagli Autore</h1>
+    <div class="bg-white rounded-lg shadow p-6">
+    <table class="min-w-full divide-y divide-gray-200">
+        <tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Codice</th><td class="px-4 py-2"><?php echo $autore['id_autore']; ?></td></tr>
+        <tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Nominativo</th><td class="px-4 py-2"><?php echo htmlspecialchars($autore['nominativo']); ?></td></tr>
+        <?php
+        // Mostro la descrizione dell'autore se disponibile
+        if (isset($autore['descrizione'])) {
+            echo '<tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Storia</th><td class="px-4 py-2">' . htmlspecialchars($autore['descrizione']) . '</td></tr>';
+        }
+        ?>
+    </table>
+    <a href="autori.php" class="mt-6 inline-block bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded transition">Torna all'elenco autori</a>
+    </div>
+</main>
 </body>
 </html>

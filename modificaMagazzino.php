@@ -89,34 +89,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    
     <title>Modifica Movimento Magazzino</title>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-<h1>Modifica Movimento di Magazzino</h1>
-<form method="post" action="modificaMagazzino.php?id=<?php echo $id_movimento; ?>">
-    <label for="id_libro">Libro:</label>
-    <select name="id_libro" id="id_libro" required>
-        <option value="">-- Seleziona libro --</option>
-        <?php while ($row = $libri->fetch_assoc()) {
-            $sel = ($row['id_libro'] == $movimento['id_libro']) ? 'selected' : '';
-            echo "<option value='{$row['id_libro']}' $sel>{$row['titolo']}</option>";
-        } ?>
-    </select>
-    <label for="tipo_movimento">Tipo movimento:</label>
-    <select name="tipo_movimento" id="tipo_movimento" required>
-        <option value="carico" <?php if($movimento['tipo_movimento']==='carico') echo 'selected'; ?>>Carico</option>
-        <option value="scarico" <?php if($movimento['tipo_movimento']==='scarico') echo 'selected'; ?>>Scarico</option>
-    </select>
-    <label for="quantita">Quantità:</label>
-    <input type="number" name="quantita" id="quantita" min="1" value="<?php echo $movimento['quantita']; ?>" required>
-    <label for="data_movimento">Data movimento:</label>
-    <input type="date" name="data_movimento" id="data_movimento" value="<?php echo $movimento['data_movimento']; ?>" required>
-    <label for="descrizione">Descrizione (opzionale):</label>
-    <textarea name="descrizione" id="descrizione" maxlength="255" rows="2" style="width:100%;margin-bottom:1rem;"><?php echo htmlspecialchars($movimento['descrizione']); ?></textarea>
-    <button type="submit" class="bottone btn-add">Salva Modifiche</button>
-</form>
-<a href="magazzino.php" class="bottone">Torna al Magazzino</a>
+<main class="max-w-xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Modifica Movimento di Magazzino</h1>
+    <form method="post" action="modificaMagazzino.php?id=<?php echo $id_movimento; ?>" class="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+        <label for="id_libro" class="font-semibold text-blue-900">Libro:</label>
+        <select name="id_libro" id="id_libro" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="">-- Seleziona libro --</option>
+            <?php while ($row = $libri->fetch_assoc()) {
+                $sel = ($row['id_libro'] == $movimento['id_libro']) ? 'selected' : '';
+                echo "<option value='{$row['id_libro']}' $sel>{$row['titolo']}</option>";
+            } ?>
+        </select>
+        <label for="tipo_movimento" class="font-semibold text-blue-900">Tipo movimento:</label>
+        <select name="tipo_movimento" id="tipo_movimento" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="carico" <?php if($movimento['tipo_movimento']==='carico') echo 'selected'; ?>>Carico</option>
+            <option value="scarico" <?php if($movimento['tipo_movimento']==='scarico') echo 'selected'; ?>>Scarico</option>
+        </select>
+        <label for="quantita" class="font-semibold text-blue-900">Quantità:</label>
+        <input type="number" name="quantita" id="quantita" min="1" value="<?php echo $movimento['quantita']; ?>" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="data_movimento" class="font-semibold text-blue-900">Data movimento:</label>
+        <input type="date" name="data_movimento" id="data_movimento" value="<?php echo $movimento['data_movimento']; ?>" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="descrizione" class="font-semibold text-blue-900">Descrizione (opzionale):</label>
+        <textarea name="descrizione" id="descrizione" maxlength="255" rows="2" class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500"><?php echo htmlspecialchars($movimento['descrizione']); ?></textarea>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded transition">Salva Modifiche</button>
+    </form>
+    <a href="magazzino.php" class="mt-6 inline-block bg-gray-400 hover:bg-gray-600 text-white px-4 py-2 rounded transition">Torna al Magazzino</a>
+</main>
 </body>
 </html>

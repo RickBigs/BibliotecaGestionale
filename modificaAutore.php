@@ -58,34 +58,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    
     <title>Modifica Autore</title>
 </head>
-<body>
-
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-
-<h1>Modifica Autore</h1>
-
-<form method="post" action="modificaAutore.php?id_upd=<?php echo $id_autore; ?>">
-    <label for="nominativo">Nominativo Autore:</label>
-    <input type="text" name="nominativo" id="nominativo" value="<?php echo htmlspecialchars($autore['nominativo']); ?>" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-
-    <label for="descrizione">Storia/Breve descrizione:</label>
-    <textarea name="descrizione" id="descrizione" maxlength="255" rows="3" style="width:100%;margin-bottom:1rem;"><?php echo isset($autore['descrizione']) ? htmlspecialchars($autore['descrizione']) : ''; ?></textarea>
-
-    <button type="submit" class="bottone btn-add">Salva Modifiche</button>
-</form>
-
+<main class="max-w-xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Modifica Autore</h1>
+    <form method="post" action="modificaAutore.php?id_upd=<?php echo $id_autore; ?>" class="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+        <label for="nominativo" class="font-semibold text-blue-900">Nominativo Autore:</label>
+        <input type="text" name="nominativo" id="nominativo" value="<?php echo htmlspecialchars($autore['nominativo']); ?>" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="descrizione" class="font-semibold text-blue-900">Storia/Breve descrizione:</label>
+        <textarea name="descrizione" id="descrizione" maxlength="255" rows="3" class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500"><?php echo isset($autore['descrizione']) ? htmlspecialchars($autore['descrizione']) : ''; ?></textarea>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded transition">Salva Modifiche</button>
+    </form>
+</main>
 </body>
 </html>

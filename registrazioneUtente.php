@@ -43,22 +43,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Registrazione Utente</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-<h1>Registra Nuovo Utente</h1>
-<?php if (isset($msg)) echo $msg; ?>
-<form method="post" action="registrazioneUtente.php" style="max-width:400px;margin:auto;">
-    <label for="username">Username:</label>
-    <input type="text" name="username" id="username" required>
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" required>
-    <label for="ruolo">Ruolo:</label>
-    <select name="ruolo" id="ruolo">
-        <option value="Utente">Utente</option>
-        <option value="Admin">Admin</option>
-    </select>
-    <button type="submit" class="bottone btn-add">Registra Utente</button>
-</form>
-<a href="index.php" class="bottone">Torna alla Home</a>
+<main class="max-w-md mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Registra Nuovo Utente</h1>
+    <?php if (isset($msg)) echo $msg; ?>
+    <form method="post" action="registrazioneUtente.php" class="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+        <label for="username" class="font-semibold text-blue-900">Username:</label>
+        <input type="text" name="username" id="username" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="password" class="font-semibold text-blue-900">Password:</label>
+        <input type="password" name="password" id="password" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="ruolo" class="font-semibold text-blue-900">Ruolo:</label>
+        <select name="ruolo" id="ruolo" class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="Utente">Utente</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <button type="submit" class="bg-green-700 hover:bg-green-900 text-white px-4 py-2 rounded transition">Registra Utente</button>
+    </form>
+    <a href="index.php" class="mt-6 inline-block bg-gray-400 hover:bg-gray-600 text-white px-4 py-2 rounded transition">Torna alla Home</a>
+</main>
 </body>
 </html>

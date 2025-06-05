@@ -40,19 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Inserisci Autore</title>
 </head>
-<body>
-
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-
-<h1>Inserisci un nuovo autore</h1>
-
-<form id="form-autore" method="post" action="inserisciAutore.php">
-    <label for="nominativo">Nominativo Autore:</label>
-    <input type="text" name="nominativo" id="nominativo" required>
-    <label for="descrizione">Storia/Breve descrizione:</label>
-    <textarea name="descrizione" id="descrizione" maxlength="255" rows="3" style="width:100%;margin-bottom:1rem;"></textarea>
-    <button type="submit" class="bottone btn-add">Inserisci Autore</button>
-</form>
-
+<main class="max-w-xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Inserisci un nuovo autore</h1>
+    <form id="form-autore" method="post" action="inserisciAutore.php" class="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+        <label for="nominativo" class="font-semibold text-blue-900">Nominativo Autore:</label>
+        <input type="text" name="nominativo" id="nominativo" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="descrizione" class="font-semibold text-blue-900">Storia/Breve descrizione:</label>
+        <textarea name="descrizione" id="descrizione" maxlength="255" rows="3" class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+        <button type="submit" class="bg-green-700 hover:bg-green-900 text-white px-4 py-2 rounded transition">Inserisci Autore</button>
+    </form>
+</main>
 </body>
 </html>

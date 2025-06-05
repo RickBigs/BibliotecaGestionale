@@ -55,40 +55,32 @@ $result_autori = $conn->query($sql_autori);
     <link rel="stylesheet" href="style.css">
     <title>Inserisci Libro</title>
 </head>
-<body>
-
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-
-<h1>Inserisci un nuovo libro</h1>
-
-<form id="form-libro"method="post" action="inserisciLibro.php">
-    <label for="titolo">Titolo:</label>
-    <input type="text" name="titolo" id="titolo" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-
-    <label for="id_autore">Autore:</label>
-    <select name="id_autore" id="id_autore" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-        <option value="">-- Seleziona un autore --</option>
-        <?php
-        // Popolo il menù a tendina con gli autori disponibili
-        if ($result_autori->num_rows > 0) {
-            while ($autore = $result_autori->fetch_assoc()) {
-                echo "<option value='".$autore["id_autore"]."'>".$autore["nominativo"]."</option>";
+<main class="max-w-xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Inserisci un nuovo libro</h1>
+    <form id="form-libro" method="post" action="inserisciLibro.php" class="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+        <label for="titolo" class="font-semibold text-blue-900">Titolo:</label>
+        <input type="text" name="titolo" id="titolo" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="id_autore" class="font-semibold text-blue-900">Autore:</label>
+        <select name="id_autore" id="id_autore" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="">-- Seleziona un autore --</option>
+            <?php
+            if ($result_autori->num_rows > 0) {
+                while ($autore = $result_autori->fetch_assoc()) {
+                    echo "<option value='".$autore["id_autore"]."'>".$autore["nominativo"]."</option>";
+                }
             }
-        }
-        ?>
-    </select>
-
-    <label for="anno_stampa">Anno di stampa:</label>
-    <input type="number" name="anno_stampa" id="anno_stampa" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-
-    <label for="prezzo">Prezzo (€):</label>
-    <input type="number" step="0.01" name="prezzo" id="prezzo" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-
-    <label for="trama">Trama (max 255 caratteri):</label>
-    <textarea name="trama" id="trama" maxlength="255" rows="3" style="width:100%;margin-bottom:1rem;"></textarea>
-
-    <button type="submit" class="bottone btn-add">Inserisci Libro</button>
-</form>
-
+            ?>
+        </select>
+        <label for="anno_stampa" class="font-semibold text-blue-900">Anno di stampa:</label>
+        <input type="number" name="anno_stampa" id="anno_stampa" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="prezzo" class="font-semibold text-blue-900">Prezzo (€):</label>
+        <input type="number" step="0.01" name="prezzo" id="prezzo" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="trama" class="font-semibold text-blue-900">Trama (max 255 caratteri):</label>
+        <textarea name="trama" id="trama" maxlength="255" rows="3" class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+        <button type="submit" class="bg-green-700 hover:bg-green-900 text-white px-4 py-2 rounded transition">Inserisci Libro</button>
+    </form>
+</main>
 </body>
 </html>

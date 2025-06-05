@@ -65,50 +65,46 @@ if (isset($_GET['elimina'])) {
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gestione Categorie</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-<div class="categorie-container">
-    <h1>Gestione Categorie</h1>
-    <form method="post" class="categorie-form" autocomplete="off" aria-label="Aggiungi categoria">
-        <input type="hidden" name="azione" value="inserisci">
-        <input type="text" name="nome" placeholder="Nuova categoria" required aria-label="Nome nuova categoria">
-        <button type="submit" class="bottone">Aggiungi</button>
+<main class="max-w-2xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Gestione Categorie</h1>
+    <form method="post" class="flex flex-wrap gap-3 items-center bg-white rounded-lg shadow px-4 py-3 mb-6">
+        <input type="text" name="nome" placeholder="Nuova categoria" required class="border border-gray-300 rounded px-3 py-1 focus:ring-blue-500 focus:border-blue-500" />
+        <button type="submit" name="azione" value="inserisci" class="bg-green-600 hover:bg-green-800 text-white px-4 py-1 rounded transition">Aggiungi</button>
     </form>
-    <div class="table-wrapper">
-        <table class="categorie-table" aria-label="Elenco categorie">
-            <thead>
-                <tr><th>Categoria</th><th>Azioni</th></tr>
+    <div class="overflow-x-auto rounded-lg shadow bg-white">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Categoria</th>
+                    <th class="px-4 py-2"></th>
+                    <th class="px-4 py-2"></th>
+                </tr>
             </thead>
             <tbody>
             <?php foreach ($categorie as $cat): ?>
-                <tr>
-                    <td>
-                
-                    <form method="post">
-                    <input type="hidden" name="azione" value="modifica">
-                    <input type="hidden" name="old_nome" value="<?php echo htmlspecialchars($cat); ?>">
-                    <input type="text" name="nome" value="<?php echo htmlspecialchars($cat); ?>" required aria-label="Modifica categoria">
-                    </form>
-                    <button type="submit" class="bottone" title="Rinomina categoria">Modifica</button>
+                <tr class="hover:bg-blue-50">
+                    <td class="px-4 py-2"><?php echo htmlspecialchars($cat); ?></td>
+                    <td class="px-4 py-2">
+                        <form method="post" class="flex gap-2 items-center">
+                            <input type="hidden" name="old_nome" value="<?php echo htmlspecialchars($cat); ?>">
+                            <input type="text" name="nome" placeholder="Nuovo nome" class="border border-gray-300 rounded px-2 py-1 focus:ring-blue-500 focus:border-blue-500" />
+                            <button type="submit" name="azione" value="modifica" class="bg-blue-600 hover:bg-blue-800 text-white px-3 py-1 rounded transition">Rinomina</button>
+                        </form>
                     </td>
-                    <td>
-                    <a href="categoria.php?elimina=<?php echo urlencode($cat); ?>"
-                    class="bottone-elimina"
-                    onclick="return confirm('Eliminare la categoria? Tutti i libri con questa categoria verranno aggiornati!')"
-                    title="Elimina categoria"
-                    aria-label="Elimina categoria">Elimina</a>
+                    <td class="px-4 py-2">
+                        <a href="categoria.php?elimina=<?php echo urlencode($cat); ?>" class="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded transition" onclick="return confirm('Eliminare la categoria?')">Elimina</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <p>Le categorie sono gestite come valori ENUM nel database. Eliminando una categoria, i libri associati verranno aggiornati alla prima categoria disponibile.</p>
-</div>
+</main>
 </body>
 </html>

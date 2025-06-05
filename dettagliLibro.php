@@ -41,17 +41,19 @@ $stmt->close();
     <title>Dettagli Libro</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-<h1>Dettagli Libro</h1>
-<table>
-    <tr><th>Codice</th><td><?php echo $libro['id_libro']; ?></td></tr>
-    <tr><th>Titolo</th><td><?php echo htmlspecialchars($libro['titolo']); ?></td></tr>
-    <tr><th>Autore</th><td><?php echo htmlspecialchars($libro['autore']); ?></td></tr>
-    <tr><th>Anno di stampa</th><td><?php echo $libro['anno_stampa']; ?></td></tr>
-    <tr><th>Prezzo</th><td><?php echo $libro['prezzo']; ?></td></tr>
-    <?php if (isset($libro['trama'])) { echo '<tr><th>Trama</th><td>' . htmlspecialchars($libro['trama']) . '</td></tr>'; } ?>
+<h1 class="text-2xl font-bold text-blue-900 mb-6">Dettagli Libro</h1>
+<div class="max-w-xl mx-auto bg-white rounded-lg shadow p-6">
+<table class="min-w-full divide-y divide-gray-200">
+    <tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Codice</th><td class="px-4 py-2"><?php echo $libro['id_libro']; ?></td></tr>
+    <tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Titolo</th><td class="px-4 py-2"><?php echo htmlspecialchars($libro['titolo']); ?></td></tr>
+    <tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Autore</th><td class="px-4 py-2"><?php echo htmlspecialchars($libro['autore']); ?></td></tr>
+    <tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Anno di stampa</th><td class="px-4 py-2"><?php echo $libro['anno_stampa']; ?></td></tr>
+    <tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Prezzo</th><td class="px-4 py-2"><?php echo $libro['prezzo']; ?></td></tr>
+    <?php if (isset($libro['trama'])) { echo '<tr><th class="text-left px-4 py-2 text-gray-700 font-semibold">Trama</th><td class="px-4 py-2">' . htmlspecialchars($libro['trama']) . '</td></tr>'; } ?>
 </table>
-<a href="libri.php" class="bottone">Torna all'elenco libri</a>
+<a href="libri.php" class="mt-6 inline-block bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded transition">Torna all'elenco libri</a>
+</div>
 </body>
 </html>

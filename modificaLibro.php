@@ -74,48 +74,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="stylea.css">
     <title>Modifica Libro</title>
 </head>
-<body>
-
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-
-<h1>Modifica Libro</h1>
-
-<form method="post" action="modificaLibro.php?id_upd=<?php echo $id_libro; ?>">
-    <label for="titolo">Titolo:</label>
-    <input type="text" name="titolo" id="titolo" value="<?php echo htmlspecialchars($libro['titolo']); ?>" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-
-    <label for="id_autore">Autore:</label>
-    <select name="id_autore" id="id_autore" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-        <option value="">-- Seleziona un autore --</option>
-        <?php
-        if ($result_autori->num_rows > 0) {
-            while ($autore = $result_autori->fetch_assoc()) {
-                $selected = ($autore["id_autore"] == $libro["id_autore"]) ? "selected" : "";
-                echo "<option value='".$autore["id_autore"]."' $selected>".$autore["nominativo"]."</option>";
+<main class="max-w-xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Modifica Libro</h1>
+    <form method="post" action="modificaLibro.php?id_upd=<?php echo $id_libro; ?>" class="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+        <label for="titolo" class="font-semibold text-blue-900">Titolo:</label>
+        <input type="text" name="titolo" id="titolo" value="<?php echo htmlspecialchars($libro['titolo']); ?>" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="id_autore" class="font-semibold text-blue-900">Autore:</label>
+        <select name="id_autore" id="id_autore" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="">-- Seleziona un autore --</option>
+            <?php
+            if ($result_autori->num_rows > 0) {
+                while ($autore = $result_autori->fetch_assoc()) {
+                    $selected = ($autore["id_autore"] == $libro["id_autore"]) ? "selected" : "";
+                    echo "<option value='".$autore["id_autore"]."' $selected>".$autore["nominativo"]."</option>";
+                }
             }
-        }
-        ?>
-    </select>
-
-    <label for="categoria">Categoria:</label>
-    <select name="categoria" id="categoria" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-        <option value="">-- Seleziona una categoria --</option>
-        <?php foreach ($categorie as $cat): ?>
-            <option value="<?php echo htmlspecialchars($cat); ?>" <?php if($libro['categoria'] == $cat) echo 'selected'; ?>><?php echo htmlspecialchars($cat); ?></option>
-        <?php endforeach; ?>
-    </select>
-
-    <label for="anno_stampa">Anno di stampa:</label>
-    <input type="number" name="anno_stampa" id="anno_stampa" value="<?php echo $libro['anno_stampa']; ?>" min="1000" max="2100" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-
-    <label for="prezzo">Prezzo (€):</label>
-    <input type="number" step="0.01" name="prezzo" id="prezzo" value="<?php echo $libro['prezzo']; ?>" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-
-    <label for="trama">Trama (max 255 caratteri):</label>
-    <textarea name="trama" id="trama" maxlength="255" rows="3" style="width:100%;margin-bottom:1rem;"><?php echo isset($libro['trama']) ? htmlspecialchars($libro['trama']) : ''; ?></textarea>
-
-    <button type="submit" class="bottone btn-add">Salva Modifiche</button>
-</form>
-
+            ?>
+        </select>
+        <label for="categoria" class="font-semibold text-blue-900">Categoria:</label>
+        <select name="categoria" id="categoria" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="">-- Seleziona una categoria --</option>
+            <?php foreach ($categorie as $cat): ?>
+                <option value="<?php echo htmlspecialchars($cat); ?>" <?php if($libro['categoria'] == $cat) echo 'selected'; ?>><?php echo htmlspecialchars($cat); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <label for="anno_stampa" class="font-semibold text-blue-900">Anno di stampa:</label>
+        <input type="number" name="anno_stampa" id="anno_stampa" value="<?php echo $libro['anno_stampa']; ?>" min="1000" max="2100" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="prezzo" class="font-semibold text-blue-900">Prezzo (€):</label>
+        <input type="number" step="0.01" name="prezzo" id="prezzo" value="<?php echo $libro['prezzo']; ?>" required class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label for="trama" class="font-semibold text-blue-900">Trama (max 255 caratteri):</label>
+        <textarea name="trama" id="trama" maxlength="255" rows="3" class="border border-gray-300 rounded px-3 py-2 focus:ring-blue-500 focus:border-blue-500"><?php echo isset($libro['trama']) ? htmlspecialchars($libro['trama']) : ''; ?></textarea>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded transition">Salva Modifiche</button>
+    </form>
+</main>
 </body>
 </html>

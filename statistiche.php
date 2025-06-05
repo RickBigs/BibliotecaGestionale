@@ -61,33 +61,33 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css">
-
     <title>Statistiche Biblioteca</title>
-
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
 <?php require_once 'header.php'; ?>
-<div class="stat-container">
-    <div class="grafici-riga">
-        <div class="grafico-singolo">
-            <h1>Top picks</h1>
-            <h2>Ai clienti piace:</h2>
+<div class="max-w-5xl mx-auto p-4">
+    <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h1 class="text-xl font-bold text-blue-900 mb-2">Top picks</h1>
+            <h2 class="text-base text-gray-700 mb-4">Ai clienti piace:</h2>
             <canvas id="topLibriChart" height="120"></canvas>
-            <p class="vedi-tutti"><a class="vedi-tutti" href="magazzino.php">Vedi tutti</a></p>
+            <p class="mt-4"><a class="bg-blue-600 hover:bg-blue-800 text-white px-3 py-1 rounded transition" href="magazzino.php">Vedi tutti</a></p>
         </div>
-        <div class="grafico-singolo">
-            <h1>Top restocks</h1>
-            <h2>Ai fornitori chiediamo:</h2>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h1 class="text-xl font-bold text-blue-900 mb-2">Top restocks</h1>
+            <h2 class="text-base text-gray-700 mb-4">Ai fornitori chiediamo:</h2>
             <canvas id="topCarichiChart" height="120"></canvas>
-            <p class="vedi-tutti"><a class="vedi-tutti" href="magazzino.php">Vedi tutti</a></p>
+            <p class="mt-4"><a class="bg-green-600 hover:bg-green-800 text-white px-3 py-1 rounded transition" href="magazzino.php">Vedi tutti</a></p>
         </div>
     </div>
-    <hr style="margin:2rem 0;">
-    <h2>Confronto carichi e scarichi (TOP 10)</h2>
-    <canvas id="confrontoCarichiScarichiChart" height="180"></canvas>
+    <hr class="my-8">
+    <h2 class="text-lg font-semibold text-blue-900 mb-4">Confronto carichi e scarichi (TOP 10)</h2>
+    <div class="bg-white rounded-lg shadow p-6">
+        <canvas id="confrontoCarichiScarichiChart" height="180"></canvas>
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const ctx = document.getElementById('topLibriChart').getContext('2d');
 const topLibriChart = new Chart(ctx, {

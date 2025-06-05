@@ -60,42 +60,62 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
 </head>
 <body>
 <?php require_once 'header.php'; ?>
-    <h1>Elenco Libri</h1>
-    <a href="inserisciLibro.php" class="bottone btn-add">Inserisci un nuovo libro</a>
-    <a href="esportaLibri.php" class="bottone btn-add">Esporta Libri CSV</a>
-    <input type="text" id="searchBar" placeholder="Cerca libro o autore..." onkeyup="filterTable()">
-<div class="filtra-categoria-wrapper">
-    <form method="get">
-        <label for="categoria">Filtra per categoria:</label>
-        <select name="categoria" id="categoria" onchange="this.form.submit()">
-            <option value="">Tutte</option>
-            <?php foreach ($categorie as $cat): ?>
-                <option value="<?php echo htmlspecialchars($cat); ?>" <?php if($categoriaFiltro==$cat) echo 'selected'; ?>><?php echo htmlspecialchars($cat); ?></option>
-            <?php endforeach; ?>
-        </select>
-        <?php if($categoriaFiltro): ?>
-            <a href="libri.php" class="bottone">Azzera filtro</a>
-        <?php endif; ?>
-    </form>
-</div>
-<?php
-if ($result->num_rows > 0) {
-    echo '<table id="libriTable"><tr>';
-    echo '<th><a href="#" id="sortCodice" style="color:inherit;text-decoration:underline;cursor:pointer;">Codice</a></th>';
-    echo '<th><a href="#" id="sortTitolo" style="color:inherit;text-decoration:underline;cursor:pointer;">Titolo</a></th>';
-    echo '<th><a href="#" id="sortAutore" style="color:inherit;text-decoration:underline;cursor:pointer;">Autore</a></th>';
-    echo '<th><a href="#" id="sortAnno" style="color:inherit;text-decoration:underline;cursor:pointer;">Anno di stampa</a></th>';
-    echo '<th>Categoria</th>';
-    echo '<th>Prezzo</th>';
-    echo '<th>Quantità</th>';
-    echo '<th>Elimina</th>';
-    echo '<th>Modifica</th>';
-    echo '<th>Dettagli</th>';
-    echo '</tr>';
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr><td>{$row['id_libro']}</td><td>{$row['titolo']}</td><td>{$row['Autore']}</td><td>{$row['anno_stampa']}</td><td>{$row['categoria']}</td><td>{$row['prezzo']}</td><td>{$row['Quantita']}</td><td><a href='eliminaLibro.php?id={$row['id_libro']}' class='bottone-elimina' onclick=\"return confirm('Sei sicuro di voler eliminare questo libro?')\">Elimina</a></td><td><a href='modificaLibro.php?id_upd={$row['id_libro']}' class='bottone'>Modifica</a></td><td><a href='dettagliLibro.php?id={$row['id_libro']}' class='bottone'>Dettagli</a></td></tr>";
-    }
-    echo "</table>";
+    <h1 class="text-2xl font-bold text-blue-900 mb-6">Elenco Libri</h1>
+    <div class="flex flex-wrap gap-3 items-center bg-white rounded-lg shadow px-4 py-3 mb-4">
+        <form method="get" class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <label for="categoria" class="font-semibold text-blue-900">Filtra per categoria:</label>
+            <select name="categoria" id="categoria" onchange="this.form.submit()" class="form-select border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Tutte</option>
+                <?php foreach ($categorie as $cat): ?>
+                    <option value="<?php echo htmlspecialchars($cat); ?>" <?php if($categoriaFiltro==$cat) echo 'selected'; ?>><?php echo htmlspecialchars($cat); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <?php if($categoriaFiltro): ?>
+                <a href="libri.php" class="bg-gray-200 hover:bg-gray-300 text-blue-900 px-3 py-1 rounded transition">Azzera filtro</a>
+            <?php endif; ?>
+        </form>
+    </div>
+    <div class="overflow-x-auto rounded-lg shadow bg-white my-6">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Codice</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Titolo</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Autore</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Anno</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Categoria</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Prezzo</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-700 uppercase">Quantità</th>
+                <th class="px-4 py-2"></th>
+                <th class="px-4 py-2"></th>
+                <th class="px-4 py-2"></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <tr class="hover:bg-blue-50">
+                <td class="px-4 py-2"><?php echo $row['id_libro']; ?></td>
+                <td class="px-4 py-2"><?php echo htmlspecialchars($row['titolo']); ?></td>
+                <td class="px-4 py-2"><?php echo htmlspecialchars($row['Autore']); ?></td>
+                <td class="px-4 py-2"><?php echo $row['anno_stampa']; ?></td>
+                <td class="px-4 py-2"><?php echo htmlspecialchars($row['categoria']); ?></td>
+                <td class="px-4 py-2"><?php echo $row['prezzo']; ?></td>
+                <td class="px-4 py-2"><?php echo $row['Quantita']; ?></td>
+                <td class="px-4 py-2">
+                    <a href="eliminaLibro.php?id=<?php echo $row['id_libro']; ?>" class="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded transition" onclick="return confirm('Sei sicuro di voler eliminare questo libro?')">Elimina</a>
+                </td>
+                <td class="px-4 py-2">
+                    <a href="modificaLibro.php?id_upd=<?php echo $row['id_libro']; ?>" class="bg-blue-600 hover:bg-blue-800 text-white px-3 py-1 rounded transition">Modifica</a>
+                </td>
+                <td class="px-4 py-2">
+                    <a href="dettagliLibro.php?id=<?php echo $row['id_libro']; ?>" class="bg-gray-400 hover:bg-gray-600 text-white px-3 py-1 rounded transition">Dettagli</a>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+        </tbody>
+    </table>
+    </div>
+    <?php
     if ($totalPages > 1) {
         echo "<div class='pagination'>";
         for ($i = 1; $i <= $totalPages; $i++) {
@@ -108,47 +128,43 @@ if ($result->num_rows > 0) {
         }
         echo "</div>";
     }
-} else {
-    echo "<p>Nessun risultato trovato.</p>";
-}
-?>
-
-<script>
-function filterTable() {
-    var input = document.getElementById('searchBar');
-    var filter = input.value.toUpperCase();
-    var table = document.getElementById('libriTable');
-    var tr = table.getElementsByTagName('tr');
-    for (var i = 1; i < tr.length; i++) {
-        var titolo = tr[i].getElementsByTagName('td')[1];
-        var autore = tr[i].getElementsByTagName('td')[2];
-        var txtValue = (titolo ? titolo.textContent : '') + ' ' + (autore ? autore.textContent : '');
-        tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
-    }
-}
-// Ordinamento tabella per colonne
-let sortDirections = { codice: true, titolo: true, autore: true, anno: true };
-function sortTableByCol(colIdx, dirKey) {
-    let table = document.getElementById('libriTable');
-    let rows = Array.from(table.rows).slice(1);
-    rows.sort(function(a, b) {
-        let aText = a.cells[colIdx].textContent.trim().toLowerCase();
-        let bText = b.cells[colIdx].textContent.trim().toLowerCase();
-        if (!isNaN(aText) && !isNaN(bText)) {
-            aText = parseFloat(aText); bText = parseFloat(bText);
+    ?>
+    <script>
+    function filterTable() {
+        var input = document.getElementById('searchBar');
+        var filter = input.value.toUpperCase();
+        var table = document.getElementById('libriTable');
+        var tr = table.getElementsByTagName('tr');
+        for (var i = 1; i < tr.length; i++) {
+            var titolo = tr[i].getElementsByTagName('td')[1];
+            var autore = tr[i].getElementsByTagName('td')[2];
+            var txtValue = (titolo ? titolo.textContent : '') + ' ' + (autore ? autore.textContent : '');
+            tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
         }
-        if (aText < bText) return sortDirections[dirKey] ? -1 : 1;
-        if (aText > bText) return sortDirections[dirKey] ? 1 : -1;
-        return 0;
-    });
-    sortDirections[dirKey] = !sortDirections[dirKey];
-    for (let row of rows) table.tBodies[0].appendChild(row);
-}
-document.getElementById('sortCodice').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(0, 'codice'); });
-document.getElementById('sortTitolo').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(1, 'titolo'); });
-document.getElementById('sortAutore').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(2, 'autore'); });
-document.getElementById('sortAnno').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(3, 'anno'); });
-</script>
-<?php $conn->close(); ?>
+    }
+    // Ordinamento tabella per colonne
+    let sortDirections = { codice: true, titolo: true, autore: true, anno: true };
+    function sortTableByCol(colIdx, dirKey) {
+        let table = document.getElementById('libriTable');
+        let rows = Array.from(table.rows).slice(1);
+        rows.sort(function(a, b) {
+            let aText = a.cells[colIdx].textContent.trim().toLowerCase();
+            let bText = b.cells[colIdx].textContent.trim().toLowerCase();
+            if (!isNaN(aText) && !isNaN(bText)) {
+                aText = parseFloat(aText); bText = parseFloat(bText);
+            }
+            if (aText < bText) return sortDirections[dirKey] ? -1 : 1;
+            if (aText > bText) return sortDirections[dirKey] ? 1 : -1;
+            return 0;
+        });
+        sortDirections[dirKey] = !sortDirections[dirKey];
+        for (let row of rows) table.tBodies[0].appendChild(row);
+    }
+    document.getElementById('sortCodice').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(0, 'codice'); });
+    document.getElementById('sortTitolo').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(1, 'titolo'); });
+    document.getElementById('sortAutore').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(2, 'autore'); });
+    document.getElementById('sortAnno').addEventListener('click', function(e) { e.preventDefault(); sortTableByCol(3, 'anno'); });
+    </script>
+    <?php $conn->close(); ?>
 </body>
 </html>
